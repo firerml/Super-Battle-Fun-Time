@@ -3,11 +3,19 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
+var jquery = require('jquery');
+
 
 app.set('port', (process.env.PORT || 8000));
 
 io.on('connection', function(client) {
 	console.log("Client has connected...");
+
+	client.on('boxClick', function(data) {
+		console.log('server heard boxClick');
+		client.broadcast.emit('boxClick', data);
+		client.emit('boxClick', data);
+	});
 });
 
 app.get('/', function(req, res) {
