@@ -1,0 +1,24 @@
+{
+  "name": "BattleTanks",
+  "version": "1.0.0",
+  "description": "BattleTanks game using Node and Socket.io",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/firerml/BattleTanks.git"
+  },
+  "author": "Mike Firer and David Brodsky",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/firerml/BattleTanks/issues"
+  },
+  "homepage": "https://github.com/firerml/BattleTanks",
+  "dependencies": {
+    "express": "^4.10.6",
+    "redis": "^0.12.1",
+    "underscore": "^1.7.0"
+  }
+}
