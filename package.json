@@ -18,7 +18,9 @@
   "homepage": "https://github.com/firerml/BattleTanks",
   "dependencies": {
     "express": "^4.10.6",
+    "express-json": "^1.0.0",
     "redis": "^0.12.1",
+    "socket.io": "^1.2.1",
     "underscore": "^1.7.0"
   }
 }
