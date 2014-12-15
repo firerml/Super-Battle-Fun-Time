@@ -4,10 +4,10 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Battle Tanks</title>
+		<script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-		<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 		<script>
-			var socket = io.connect('http://localhost:8000');
+			var socket = io.connect();
 			
 			$(function() {
 				$('#box').on('click', function() {
