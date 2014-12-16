@@ -5,7 +5,7 @@ function startGame() {
   ctx.fillStyle = 'lavender';
   ctx.fillRect(0,0,canvas.width,canvas.height);
   ctx.fillStyle = 'black';
-  var tank = new Tank('Mike');
+  tank = new Tank('Mike');
 
   setInterval(function() { updateCanvas(tank) },15);
 

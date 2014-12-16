@@ -14,12 +14,13 @@
 
 		 	$(function() {
 		 		startGame();
-		 		socket.on('canvasUpdate', draw);
+		 		socket.on('canvasUpdate', receiveUpdate);
 			});
-		
-			var appendText = function(phrase) {
-				$('body').append($('<p>').text(phrase));
-			};
+
+			function receiveUpdate(tankObj) {
+				tank = tankObj;
+			}		
+
 		</script>
 	</head>
 
