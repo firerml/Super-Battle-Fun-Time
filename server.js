@@ -18,11 +18,12 @@ io.on('connection', function(client) {
 	});
 });
 
-app.get('/', function(req, res) {
-	res.sendFile(__dirname + '/public/views/index.html');
-});
+app.use(express.static('public'));
+
+// app.get('/', function(req, res) {
+// 	res.sendFile(__dirname + '/public/views/index.html');
+// });
 
 server.listen(app.get('port'), function() {
 	console.log("Node app is running at localhost:" + app.get('port'));
 })
-
