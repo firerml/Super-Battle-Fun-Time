@@ -50,7 +50,6 @@ Tank.prototype.updateTank = function() {
 };
 
 Tank.prototype.moveForward = function() {
-  console.log(this.velocity);
   if (this.velocity <= this.maxForwardVelocity - this.forwardAccel) {
     this.velocity += this.forwardAccel;
   }
@@ -85,4 +84,4 @@ Tank.prototype.slowDown = function() {
   }
 };
 
-module.exports = new Tank('Mike')
+// module.exports = new Tank('Mike')

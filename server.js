@@ -11,10 +11,9 @@ app.set('port', (process.env.PORT || 8000));
 io.on('connection', function(client) {
 	console.log("Client has connected...");
 
-	client.on('boxClick', function(data) {
-		console.log('server heard boxClick');
-		client.broadcast.emit('boxClick', data);
-		client.emit('boxClick', data);
+	client.on('canvasUpdate', function(data) {
+		client.broadcast.emit('canvasUpdate', data);
+		
 	});
 });
 
