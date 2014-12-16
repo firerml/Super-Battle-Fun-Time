@@ -9,24 +9,24 @@ function startGame() {
   ctx.fillStyle = 'lavender';
   ctx.fillRect(0,0,canvas.width,canvas.height);
   ctx.fillStyle = 'black';
-  tank = new Tank('Mike');
+  var tank = new Tank('Mike');
 
   setInterval(drawCanvas,15);
 
 }
 
-function drawCanvas() {
+function drawCanvas(myTank) {
   refreshCanvas();
   drawTank();
+  myTank.updateTank();
 }
 
-function drawTank() {
+function drawTank(myTank) {
   ctx.save();
-  ctx.translate(tank.coordinates.x,tank.coordinates.y);
-  ctx.rotate(tank.angle);
-  ctx.fillRect(tank.dimensions.width*(-0.5),tank.dimensions.height*(-0.5),tank.dimensions.width,tank.dimensions.height);
+  ctx.translate(myTank.coordinates.x,myTank.coordinates.y);
+  ctx.rotate(myTank.angle);
+  ctx.fillRect(myTank.dimensions.width*(-0.5),myTank.dimensions.height*(-0.5),myTank.dimensions.width,myTank.dimensions.height);
   ctx.restore();
-  tank.updateTank();
 }
 
 function refreshCanvas() {
