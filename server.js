@@ -13,6 +13,7 @@ io.on('connection', function(client) {
 
 	client.on('canvasUpdate', function(data) {
 		client.broadcast.emit('canvasUpdate', data);
+		client.emit('canvasUpdate', data);
 	});
 });
 
