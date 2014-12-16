@@ -1,3 +1,5 @@
+//$ = require('jasmine-jquery');
+
 var tank = require('../public/js/tank.js');
 
 describe('Tank', function() {

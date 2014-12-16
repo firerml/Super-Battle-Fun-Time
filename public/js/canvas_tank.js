@@ -1,29 +1,31 @@
 var ctx;
 
-function startGame() {
+function startGame(myName,myColor,enemyName,enemyColor) {
   ctx = $('#canvas')[0].getContext('2d');
   ctx.fillStyle = 'lavender';
   ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle = 'black';
-  tank = new Tank('Mike');
+  myTank = new Tank(myName,myColor);
+  enemyTank = new Tank(enemyName,enemyColor);
 
-  setInterval(function() { updateCanvas(tank) },15);
+  setInterval(function() { updateCanvas(myTank,enemyTank) },15);
 
 }
 
-function updateCanvas(myTank) {
-  draw(myTank);
-  myTank.updateTank();
-}
-
-function draw(myTank) {
+function updateCanvas(myTank,enemyTank) {
   refreshCanvas();
+  draw(myTank);
+  draw(enemyTank);
+  myTank.updateTank();
+  socket.emit('canvasUpdate', myTank.getAttributes());
+}
+
+function draw(tank) {
   ctx.save();
-  ctx.translate(myTank.coordinates.x,myTank.coordinates.y);
-  ctx.rotate(myTank.angle);
-  ctx.fillRect(myTank.dimensions.width*(-0.5),myTank.dimensions.height*(-0.5),myTank.dimensions.width,myTank.dimensions.height);
+  ctx.translate(tank.coordinates.x,tank.coordinates.y);
+  ctx.rotate(tank.angle);
+  ctx.fillStyle = tank.color;
+  ctx.fillRect(tank.dimensions.width*(-0.5),tank.dimensions.height*(-0.5),tank.dimensions.width,tank.dimensions.height);
   ctx.restore();
-  socket.emit('canvasUpdate',myTank);
 }
 
 function refreshCanvas() {

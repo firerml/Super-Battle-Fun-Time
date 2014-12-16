@@ -13,12 +13,27 @@
 			
 
 		 	$(function() {
-		 		startGame();
+		 		var playerCode;
 		 		socket.on('canvasUpdate', receiveUpdate);
+
+
+		 		$('body').on('keydown', function(event) {
+		 			if (event.keyCode === 80) {
+		 				startGame('p', 'red', 'q', 'blue');
+		 				playerCode = 'p';
+		 				enemyCode = 'q';
+		 			}
+		 			else if (event.keyCode === 81) {
+		 				startGame('q', 'blue','p', 'red');
+		 				playerCode = 'q';
+		 				enemyCode = 'p';
+		 			}
+		 		})
+
 			});
 
-			function receiveUpdate(tankObj) {
-				tank = tankObj;
+			function receiveUpdate(tankProperties) {
+				enemyTank.setAttributes(tankProperties);
 			}		
 
 		</script>
