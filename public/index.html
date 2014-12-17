@@ -18,23 +18,19 @@
 
 				});
 
-				var playerCode;
-				var enemyCode;
 				socket.on('canvasUpdate', receiveUpdate);
 
-				$('body').on('keydown', function(event) {
-					if (event.keyCode === 80) {
-						startGame('p', 'red', 'q', 'blue');
-						playerCode = 'p';
-						enemyCode = 'q';
-						}
-						else if (event.keyCode === 81) {
-							startGame('q', 'blue','p', 'red');
-							playerCode = 'q';
-							enemyCode = 'p';
-							}
-						});
-					});
+				$('body').on('click', '#p1', function() {
+					$('#p1').remove();
+					$('#p2').remove();
+					startGame('p', 'red', 'q', 'blue');
+				});
+				$('body').on('click', '#p2', function() {
+					$('#p1').remove();
+					$('#p2').remove();
+					startGame('q', 'blue','p', 'red');
+				});
+			});
 
 			function receiveUpdate(tankProperties) {
 				enemyTank.setAttributes(tankProperties);
@@ -45,6 +41,8 @@
 
 	<body>
 		<canvas id='canvas' height=600 width=1000></canvas>
+		<div class='player-button' id='p1'>Player 1</div>
+		<div class='player-button' id='p2'>Player 2</div>
 		<!-- Hello mike!
 		<div id="box" style='width:300;height:300px;background:red;'></div> -->
 	</body>

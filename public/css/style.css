@@ -1,3 +1,9 @@
 body {
   margin: 0;
 }
+
+.player-button {
+  width: 100px;
+  margin: 10px;
+  background: pink;
+}
