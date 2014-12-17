@@ -27,11 +27,14 @@ function draw(tank) {
   ctx.rotate(tank.angle);
   ctx.fillRect(tank.dimensions.width*(-0.5),tank.dimensions.height*(-0.5),tank.dimensions.width,tank.dimensions.height);
 
-  ctx.beginPath()
-  ctx.fillStyle = 'black';
-  ctx.arc(0,0,5,0,2*Math.PI/180,true);
-  ctx.fill()
-  ctx.closePath()
+  ctx.beginPath();
+  ctx.translate(0,0);
+  ctx.moveTo(-13,0);
+  ctx.lineTo(-5,-6);
+  ctx.lineTo(-5,6);
+  ctx.closePath();
+  ctx.fillStyle = 'green';
+  ctx.fill();
 
   ctx.restore();
 
