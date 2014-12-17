@@ -17,22 +17,21 @@
 			socket = io.connect();
 
 		  $(function() {
-			// Make lobby appear
-			$('#splashbutton').on('click', connectToLobby);
+				// Make lobby appear
+				$('#splashbutton').on('click', connectToLobby);
 
-			$('body').on('click', '#p1', function() {
-				$('#p1').remove();
-				$('#p2').remove();
-				$('canvas').show();
-				startGame('p', 'red', 'q', 'blue');
-			});
-			$('body').on('click', '#p2', function() {
-				$('#p1').remove();
-				$('#p2').remove();
-				$('canvas').show();
-				startGame('q', 'blue','p', 'red');
-			});
-
+				$('body').on('click', '#p1', function() {
+					$('#p1').remove();
+					$('#p2').remove();
+					$('canvas').show();
+					startGame('p', 'red', 'q', 'blue');
+				});
+				$('body').on('click', '#p2', function() {
+					$('#p1').remove();
+					$('#p2').remove();
+					$('canvas').show();
+					startGame('q', 'blue','p', 'red');
+				});
 			});
 
 			// Establishes socket connection and loads chat lobby

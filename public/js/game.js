@@ -6,6 +6,10 @@ $(function() {
 
 	socket.on('canvasUpdate', receiveUpdate);
 
+	socket.on('updateBullets', function(bulletsArray) {
+		enemyBullets = bulletsArray;
+	});
+
 
 });
 

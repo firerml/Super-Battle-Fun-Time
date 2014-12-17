@@ -40,6 +40,11 @@ io.on('connection', function(client) {
 			userID: client.id
 		});
 	});
+
+	client.on('updateBullets', function(data) {
+		client.broadcast.emit('updateBullets',data);
+	});
+
 });
 
 // Load files that are in the public directory
