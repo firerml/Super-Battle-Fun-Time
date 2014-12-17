@@ -16,11 +16,18 @@
 		 $(function() {
 			$('body').mousemove(function(event) {
 				if (myTank.nickname !== 'undefined') myTank.moveTurret(event.pageX,event.pageY);
-
+					// console.log('mouseX: ' + event.pageX);
+					// console.log('mouseY: ' + event.pageY);
 				});
 
+			$('body').on('keydown', function(event) {
+				if (event.keyCode === 66) {
+					console.log(myTank.getCorners());
+				}
+			});
+
 				socket.on('canvasUpdate', receiveUpdate);
-	
+
 				$('body').on('click', '#p1', function() {
 					$('#p1').remove();
 					$('#p2').remove();

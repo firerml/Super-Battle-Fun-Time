@@ -21,8 +21,13 @@ function updateCanvas(myTank,enemyTank) {
   draw(enemyTank);
   myTank.updateTank();
   bullets.forEach(function(bullet) {
-    console.log(bullet.angle);
     bullet.move();
+    var hit = bullet.detectCollisions(enemyTank);
+    if (hit) {
+      bullets.splice(bullets.indexOf(bullet),1);
+      // I want to broadcast.emit to the enemy a takeDamage event
+      bullet = null;
+    }
   });
   socket.emit('canvasUpdate', myTank.getAttributes());
 }
@@ -65,7 +70,6 @@ function drawTurret(tank) {
 }
 
 function drawBullets() {
-  console.log(bullets[0].coordinates);
   bullets.forEach(function(bullet) {
     ctx.beginPath();
     ctx.arc(bullet.coordinates.x, bullet.coordinates.y, 5, 0, 2*Math.PI, false);
