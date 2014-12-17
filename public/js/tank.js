@@ -1,6 +1,6 @@
 var Tank = function(nickname, color) {
   this.player = nickname;
-  this.coordinates = {x: 100 * Math.random()*3 + 1, y: 300};
+  this.coordinates = { x: 400 * Math.random(), y: 400 * Math.random() };
   this.dimensions = {width: 30, height: 30};
   this.velocity = 0;
   this.angle = (90 * Math.PI/180);
@@ -14,11 +14,14 @@ var Tank = function(nickname, color) {
 
   this.upPressed = false;
   this.rightPressed = false;
-  this.leftPressed = false;
   this.downPressed = false;
+  this.leftPressed = false;
+
+  this.health = 100;
 
   var self = this;
   $('body').on('keydown', function(event) {
+    event.preventDefault();
     if (event.keyCode === 38 || event.keyCode === 87) self.upPressed = true;
     if (event.keyCode === 39 || event.keyCode === 68) self.rightPressed = true;
     if (event.keyCode === 37 || event.keyCode === 65) self.leftPressed = true;
@@ -98,7 +101,8 @@ Tank.prototype.getAttributes = function() {
     forwardAccel: this.forwardAccel,
     backwardsAccel: this.backwardsAccel,
     decel: this.decel,
-    turretAngle: this.turretAngle
+    turretAngle: this.turretAngle,
+    health: this.health
   }
 };
 
@@ -114,6 +118,7 @@ Tank.prototype.setAttributes = function(tankProps) {
   this.backwardsAccel = tankProps.backwardsAccel;
   this.decel = tankProps.decel;
   this.turretAngle = tankProps.turretAngle;
+  this.health = tankProps.health;
 };
 
 Tank.prototype.moveTurret = function(mouseX,mouseY) {
@@ -122,5 +127,32 @@ Tank.prototype.moveTurret = function(mouseX,mouseY) {
 
   this.turretAngle = (Math.atan2(yDif,xDif) + Math.PI/2);
 };
+
+Tank.prototype.createBullet = function() {
+  var xCoord = 30*Math.cos(this.turretAngle - Math.PI/2) + this.coordinates.x;
+  var yCoord = 30*Math.sin(this.turretAngle - Math.PI/2) + this.coordinates.y;
+  var bullet = new Bullet(this.turretAngle,xCoord,yCoord);
+  bullets.push(bullet);
+};
+
+Tank.prototype.getCorners = function() {
+  var rotAngle = this.angle - Math.PI/4;
+  var hyp = Math.sqrt(Math.pow(this.dimensions.height,2) + Math.pow(this.dimensions.width,2))/2
+  var tL = {x: this.coordinates.x - hyp*Math.cos(rotAngle),
+        y: this.coordinates.y - hyp*Math.sin(rotAngle) };
+  var tR = {x: this.coordinates.x + hyp*Math.sin(rotAngle),
+        y: this.coordinates.y - hyp*Math.cos(rotAngle) };
+  var bL = {x: this.coordinates.x - hyp*Math.sin(rotAngle),
+        y: this.coordinates.y + hyp*Math.cos(rotAngle) };
+  var bR = {x: this.coordinates.x + hyp*Math.cos(rotAngle),
+        y: this.coordinates.y + hyp*Math.sin(rotAngle) };
+  return {tL: tL, tR: tR, bL: bL, bR: bR};
+};
+
+Tank.prototype.takeDamage = function(weapon) {
+  if (weapon === 'bullet') {
+    this.health -= 5;
+  }
+}
 
 //module.exports = new Tank('Mike')
