@@ -1,6 +1,6 @@
 var Tank = function(nickname, color) {
   this.player = nickname;
-  this.coordinates = {x: 300, y: 300};
+  this.coordinates = {x: 100 * Math.random()*3 + 1, y: 300};
   this.dimensions = {width: 30, height: 30};
   this.velocity = 0;
   this.angle = (90 * Math.PI/180);
@@ -8,8 +8,9 @@ var Tank = function(nickname, color) {
   this.maxBackwardsVelocity = -0.8;
   this.forwardAccel = 0.04;
   this.backwardsAccel = 0.08;
-  this.descel = 0.03;
+  this.decel = 0.03;
   this.color = color;
+  this.turretAngle = 0;
 
   this.upPressed = false;
   this.rightPressed = false;
@@ -18,16 +19,16 @@ var Tank = function(nickname, color) {
 
   var self = this;
   $('body').on('keydown', function(event) {
-    if (event.keyCode === 38) self.upPressed = true;
-    if (event.keyCode === 39) self.rightPressed = true;
-    if (event.keyCode === 37) self.leftPressed = true;
-    if (event.keyCode === 40) self.downPressed = true;
+    if (event.keyCode === 38 || event.keyCode === 87) self.upPressed = true;
+    if (event.keyCode === 39 || event.keyCode === 68) self.rightPressed = true;
+    if (event.keyCode === 37 || event.keyCode === 65) self.leftPressed = true;
+    if (event.keyCode === 40 || event.keyCode === 83) self.downPressed = true;
   });
   $('body').on('keyup', function(event) {
-    if (event.keyCode === 38) self.upPressed = false;
-    if (event.keyCode === 39) self.rightPressed = false;
-    if (event.keyCode === 37) self.leftPressed = false;
-    if (event.keyCode === 40) self.downPressed = false;
+    if (event.keyCode === 38 || event.keyCode === 87) self.upPressed = false;
+    if (event.keyCode === 39 || event.keyCode === 68) self.rightPressed = false;
+    if (event.keyCode === 37 || event.keyCode === 65) self.leftPressed = false;
+    if (event.keyCode === 40 || event.keyCode === 83) self.downPressed = false;
   });
 };
 
@@ -78,7 +79,7 @@ Tank.prototype.slowDown = function() {
   if (this.velocity > 0) {
     this.coordinates.x -= Math.cos(this.angle)*this.velocity;
     this.coordinates.y -= Math.sin(this.angle)*this.velocity;
-    this.velocity -= this.descel;
+    this.velocity -= this.decel;
   }
   else {
     this.velocity = 0;
@@ -96,11 +97,8 @@ Tank.prototype.getAttributes = function() {
     maxBackwardsVelocity: this.maxBackwardsVelocity,
     forwardAccel: this.forwardAccel,
     backwardsAccel: this.backwardsAccel,
-    descel: this.descel,
-    // upPressed: this.upPressed,
-    // rightPressed: this.rightPressed,
-    // leftPressed: this.leftPressed,
-    // downPressed: this.downPressed,
+    decel: this.decel,
+    turretAngle: this.turretAngle
   }
 };
 
@@ -114,11 +112,15 @@ Tank.prototype.setAttributes = function(tankProps) {
   this.maxBackwardsVelocity = tankProps.maxBackwardsVelocity;
   this.forwardAccel = tankProps.forwardAccel;
   this.backwardsAccel = tankProps.backwardsAccel;
-  this.descel = tankProps.descel;
-  // this.upPressed = tankProps.upPressed;
-  // this.downPressed = tankProps.downPressed;
-  // this.leftPressed = tankProps.leftPressed;
-  // this.rightPressed = tankProps.rightPressed;
+  this.decel = tankProps.decel;
+  this.turretAngle = tankProps.turretAngle;
+};
+
+Tank.prototype.moveTurret = function(mouseX,mouseY) {
+  var yDif = (mouseY - this.coordinates.y);
+  var xDif = (mouseX - this.coordinates.x);
+
+  this.turretAngle = (Math.atan2(yDif,xDif) + Math.PI/2);
 };
 
 //module.exports = new Tank('Mike')

@@ -22,9 +22,26 @@ function updateCanvas(myTank,enemyTank) {
 function draw(tank) {
   ctx.save();
   ctx.translate(tank.coordinates.x,tank.coordinates.y);
-  ctx.rotate(tank.angle);
+
   ctx.fillStyle = tank.color;
+  ctx.rotate(tank.angle);
   ctx.fillRect(tank.dimensions.width*(-0.5),tank.dimensions.height*(-0.5),tank.dimensions.width,tank.dimensions.height);
+
+  ctx.beginPath()
+  ctx.fillStyle = 'black';
+  ctx.arc(0,0,5,0,2*Math.PI/180,true);
+  ctx.fill()
+  ctx.closePath()
+
+  ctx.restore();
+
+
+
+  ctx.save();
+  ctx.translate(tank.coordinates.x,tank.coordinates.y);
+  ctx.fillStyle = 'purple';
+  ctx.rotate(tank.turretAngle);
+  ctx.fillRect(-3,0,6,-30);
   ctx.restore();
 }
 

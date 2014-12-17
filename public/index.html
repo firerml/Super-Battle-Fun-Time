@@ -4,37 +4,41 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Battle Tanks</title>
+		<link rel="stylesheet" href="/css/style.css">
 		<script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 		<script type="text/javascript" src="js/canvas_tank.js"></script>
 		<script type="text/javascript" src="js/tank.js"></script>
 		<script>
 			socket = io.connect();
-			
 
-		 	$(function() {
-		 		var playerCode;
-		 		socket.on('canvasUpdate', receiveUpdate);
+		 $(function() {
+			$('canvas').mousemove(function(event) {
+				if (myTank.nickname !== 'undefined') myTank.moveTurret(event.pageX,event.pageY);
 
+				});
 
-		 		$('body').on('keydown', function(event) {
-		 			if (event.keyCode === 80) {
-		 				startGame('p', 'red', 'q', 'blue');
-		 				playerCode = 'p';
-		 				enemyCode = 'q';
-		 			}
-		 			else if (event.keyCode === 81) {
-		 				startGame('q', 'blue','p', 'red');
-		 				playerCode = 'q';
-		 				enemyCode = 'p';
-		 			}
-		 		})
+				var playerCode;
+				var enemyCode;
+				socket.on('canvasUpdate', receiveUpdate);
 
-			});
+				$('body').on('keydown', function(event) {
+					if (event.keyCode === 80) {
+						startGame('p', 'red', 'q', 'blue');
+						playerCode = 'p';
+						enemyCode = 'q';
+						}
+						else if (event.keyCode === 81) {
+							startGame('q', 'blue','p', 'red');
+							playerCode = 'q';
+							enemyCode = 'p';
+							}
+						});
+					});
 
 			function receiveUpdate(tankProperties) {
 				enemyTank.setAttributes(tankProperties);
-			}		
+			}
 
 		</script>
 	</head>
