@@ -23,10 +23,12 @@ function updateCanvas(myTank,enemyTank) {
   bullets.forEach(function(bullet) {
     bullet.move();
     var hit = bullet.detectCollisions(enemyTank);
-    if (hit) {
+    if (hit || bullet.coordinates.x < 0 || bullet.coordinates.x > canvas.width || bullet.coordinates.y < 0 || bullet.coordinates.y > canvas.height) {
       bullets.splice(bullets.indexOf(bullet),1);
-      // I want to broadcast.emit to the enemy a takeDamage event
       bullet = null;
+      if (hit) {
+        socket.emit()
+      }
     }
   });
   socket.emit('canvasUpdate', myTank.getAttributes());
