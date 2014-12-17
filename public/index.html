@@ -8,13 +8,43 @@
 		<script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 		<script type="text/javascript" src="js/canvas_tank.js"></script>
+		<script type="text/javascript" src="js/bullet.js"></script>
 		<script type="text/javascript" src="js/tank.js"></script>
 		<!-- <script type="text/javascript" src="js/game.js"></script> -->
 
 		<script>
 			$(function() {
-				// Make lobby appear
-				$('#splashbutton').on('click', connectToLobby);
+
+			socket = io.connect();
+
+		 $(function() {
+			$('body').mousemove(function(event) {
+				if (myTank.nickname !== 'undefined') myTank.moveTurret(event.pageX,event.pageY);
+					// console.log('mouseX: ' + event.pageX);
+					// console.log('mouseY: ' + event.pageY);
+				});
+				
+			// Make lobby appear
+			$('#splashbutton').on('click', connectToLobby);
+
+			$('body').on('keydown', function(event) {
+				if (event.keyCode === 66) {
+					console.log(myTank.getCorners());
+				}
+			});
+
+				socket.on('canvasUpdate', receiveUpdate);
+
+				$('body').on('click', '#p1', function() {
+					$('#p1').remove();
+					$('#p2').remove();
+					startGame('p', 'red', 'q', 'blue');
+				});
+				$('body').on('click', '#p2', function() {
+					$('#p1').remove();
+					$('#p2').remove();
+					startGame('q', 'blue','p', 'red');
+				});
 			});
 
 			// Establishes socket connection and loads chat lobby
