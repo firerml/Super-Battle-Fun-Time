@@ -54,3 +54,5 @@ function refreshCanvas() {
   ctx.fillRect(0,0,canvas.width,canvas.height);
   ctx.restore();
 }
+
+// module.exports = startGame()

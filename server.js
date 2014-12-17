@@ -11,6 +11,16 @@ app.set('port', (process.env.PORT || 8000));
 io.on('connection', function(client) {
 	console.log("Client has connected...");
 
+	// if (client.id == io.engine.clients[0]) {
+	// 	console.log("You are player 1")
+	// }
+	// else if (client.id == io.engine.clients[1]) {
+	// 	console.log("You are player 2")
+	// }
+	// else {
+	// 	console.log("You are a viewer");
+	// }
+
 	client.on('canvasUpdate', function(data) {
 		client.broadcast.emit('canvasUpdate', data);
 		//client.emit('canvasUpdate', data);
