@@ -1,9 +1,89 @@
 body {
   margin: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.player-button {
-  width: 100px;
-  margin: 10px;
-  background: pink;
+canvas {
+	display: none;
+}
+
+#lobby {
+	height: 100%;
+	width: 100%;
+	background: black;
+	display: none;
+}
+
+#messageinput {
+	width: 90%;
+	height: 50px;
+	font-size: 48px;
+}
+
+#sendmessage {
+	width: 10%;
+}
+
+#loginpage {
+	background-color: rgba(0,0,0,0.9);
+	width: 100%;
+	top: 0px;
+	bottom: 0px;
+	position: absolute;
+	display: none;
+}
+
+.loginform {
+	text-align: center;
+	position: absolute;
+	top: 50%;
+	left: 35%;
+}
+
+#login-input {
+	width: 100%;
+	height: 60px;
+	font-size: 50px;
+	text-align: center;
+}
+
+.chatcontainer {
+	height: 100%;
+}
+
+.userscontainer {
+	position: absolute;
+	top: 0px;
+	bottom: 50px;
+	width: 30%;
+	float: left;
+	background: yellow;
+}
+
+.chatmessagescontainer {
+	position: absolute;
+	top: 0px;
+	bottom: 50px;
+	left: 30%;
+	width: 70%;
+	float: right;
+	background: green;
+}
+
+.textinputcontainer {
+	position: fixed;
+	bottom: 5px;
+	width: 100%;
+	height: 50px;
+	background: red;
+}
+
+.sendbutton {
+	position: absolute;
+	border: 1px outset blue;
+	background-color: lightBlue;
+	cursor:pointer;
+	height: 55px;
+	width: 10%;
 }
