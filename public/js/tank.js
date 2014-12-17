@@ -1,6 +1,6 @@
 var Tank = function(nickname, color) {
   this.player = nickname;
-  this.coordinates = {x: 100 * Math.random()*3 + 1, y: 300};
+  this.coordinates = { x: 400 * Math.random()*5, y: 400 * Math.random() };
   this.dimensions = {width: 30, height: 30};
   this.velocity = 0;
   this.angle = (90 * Math.PI/180);
@@ -14,8 +14,8 @@ var Tank = function(nickname, color) {
 
   this.upPressed = false;
   this.rightPressed = false;
-  this.leftPressed = false;
   this.downPressed = false;
+  this.leftPressed = false;
 
   var self = this;
   $('body').on('keydown', function(event) {
@@ -121,6 +121,25 @@ Tank.prototype.moveTurret = function(mouseX,mouseY) {
   var xDif = (mouseX - this.coordinates.x);
 
   this.turretAngle = (Math.atan2(yDif,xDif) + Math.PI/2);
+};
+
+Tank.prototype.createBullet = function() {
+  var xCoord = 30*Math.cos(this.turretAngle - Math.PI/2) + this.coordinates.x;
+  var yCoord = 30*Math.sin(this.turretAngle - Math.PI/2) + this.coordinates.y;
+  var bullet = new Bullet(this.turretAngle,xCoord,yCoord);
+  bullets.push(bullet);
+};
+
+Tank.prototype.getCorners = function() {
+  var tL = {x: this.coordinates.x - this.dimensions.width/2,
+        y: this.coordinates.y - this.dimensions.height/2 };
+  var tR = {x: this.coordinates.x + this.dimensions.width/2,
+        y: this.coordinates.y - this.dimensions.height/2 };
+  var bL = {x: this.coordinates.x - this.dimensions.width/2,
+        y: this.coordinates.y + this.dimensions.height/2 };
+  var bR = {x: this.coordinates.x + this.dimensions.width/2,
+        y: this.coordinates.y + this.dimensions.height/2 };
+  return {tL: tL, tR: tR, bL: bL, bR: bR};
 };
 
 //module.exports = new Tank('Mike')

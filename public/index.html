@@ -8,18 +8,19 @@
 		<script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 		<script type="text/javascript" src="js/canvas_tank.js"></script>
+		<script type="text/javascript" src="js/bullet.js"></script>
 		<script type="text/javascript" src="js/tank.js"></script>
 		<script>
 			socket = io.connect();
 
 		 $(function() {
-			$('canvas').mousemove(function(event) {
+			$('body').mousemove(function(event) {
 				if (myTank.nickname !== 'undefined') myTank.moveTurret(event.pageX,event.pageY);
 
 				});
 
 				socket.on('canvasUpdate', receiveUpdate);
-
+	
 				$('body').on('click', '#p1', function() {
 					$('#p1').remove();
 					$('#p2').remove();
