@@ -38,7 +38,6 @@ function updateCanvas(myTank,enemyTank) {
 
   socket.emit('updateBullets',bullets);
   makeBullets(bullets);
-  console.log(enemyBullets);
   if (enemyBullets.length !== 0) {
     drawBullets(enemyBullets);
   }

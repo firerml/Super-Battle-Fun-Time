@@ -21,7 +21,7 @@ var Tank = function(nickname, color) {
 
   var self = this;
   $('body').on('keydown', function(event) {
-    event.preventDefault();
+    //event.preventDefault();
     if (event.keyCode === 38 || event.keyCode === 87) self.upPressed = true;
     if (event.keyCode === 39 || event.keyCode === 68) self.rightPressed = true;
     if (event.keyCode === 37 || event.keyCode === 65) self.leftPressed = true;

@@ -10,52 +10,86 @@
 		<script type="text/javascript" src="js/canvas_tank.js"></script>
 		<script type="text/javascript" src="js/bullet.js"></script>
 		<script type="text/javascript" src="js/tank.js"></script>
+		<script type="text/javascript" src="js/game.js"></script>
+
 		<script>
+
 			socket = io.connect();
 
-		 $(function() {
-			$('body').mousemove(function(event) {
-				if (myTank.nickname !== 'undefined') myTank.moveTurret(event.pageX,event.pageY);
-					// console.log('mouseX: ' + event.pageX);
-					// console.log('mouseY: ' + event.pageY);
-				});
-
-			$('body').on('keydown', function(event) {
-				if (event.keyCode === 66) {
-					console.log(myTank.getCorners());
-				}
-			});
-
-				socket.on('canvasUpdate', receiveUpdate);
-				socket.on('updateBullets', function(bullets) {
-					enemyBullets = bullets;
-				});
+		  $(function() {
+				// Make lobby appear
+				$('#splashbutton').on('click', connectToLobby);
 
 				$('body').on('click', '#p1', function() {
 					$('#p1').remove();
 					$('#p2').remove();
+					$('canvas').show();
 					startGame('p', 'red', 'q', 'blue');
 				});
 				$('body').on('click', '#p2', function() {
 					$('#p1').remove();
 					$('#p2').remove();
+					$('canvas').show();
 					startGame('q', 'blue','p', 'red');
 				});
 			});
 
-			function receiveUpdate(tankProperties) {
-				enemyTank.setAttributes(tankProperties);
+			// Establishes socket connection and loads chat lobby
+			function connectToLobby() {
+				// AJAX request for socket.js to open a socket connection
+				// $.get('/socket').done(function(data) {
+				var scriptElement = document.createElement('script');
+				scriptElement.src = '/js/socket.js';
+				$('#splashpage').hide();	
+				$('#lobby').show();
+				$('#loginpage').show();
+				$('body').append(scriptElement);
+				loadChatroom();
+				// });
 			}
 
+			function loadChatroom() {	
+				var scriptElem = document.createElement('script');
+				scriptElem.src = '/js/chatroom.js';
+				document.body.appendChild(scriptElem);
+			}
 		</script>
+
 	</head>
 
 	<body>
 		<canvas id='canvas' height=600 width=1000></canvas>
+
 		<div class='player-button' id='p1'>Player 1</div>
 		<div class='player-button' id='p2'>Player 2</div>
-		<!-- Hello mike!
-		<div id="box" style='width:300;height:300px;background:red;'></div> -->
+		
+		<div id="splashpage">
+			<h1>Battle Tanks</h1>
+			<button id="splashbutton">Go to battle</button>	
+		</div>
+
+		<div id="lobby">
+			<div class="chatcontainer">
+				<div class="userscontainer">
+					
+				</div>
+				<div class="chatmessagescontainer">
+					
+				</div>
+			</div>
+			<div class="textinputcontainer">
+				<input type="text" id="messageinput" placeholder="Type your message here">
+				<input class="sendbutton" type="button" value="Send"/>
+			</div>
+		</div>
+
+		<div id="loginpage">
+			<div class="loginform">
+				<input type="text" type="submit" id="login-input" placeholder="Select your username">
+			</div>
+		</div>
+
 	</body>
+
 
 </html>
