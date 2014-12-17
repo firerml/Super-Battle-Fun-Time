@@ -45,14 +45,6 @@ io.on('connection', function(client) {
 // Load files that are in the public directory
 app.use(express.static('public'));
 
-// Sends socket.js to the AJAX call $.get(/lobby)
-app.get('/socket', function(req, res) {
-	res.sendFile(__dirname + '/public/js/socket.js');
-});
-
-app.get('/chatroom', function(req, res) {
-	res.sendFile(__dirname + '/public/js/chatroom.js')
-});
 
 // Make the server listen to the port defined above
 server.listen(app.get('port'), function() {
