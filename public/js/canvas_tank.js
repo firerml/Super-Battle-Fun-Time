@@ -10,9 +10,24 @@ function startGame(myName,myColor,enemyName,enemyColor) {
     myTank.createBullet()
   });
   bullets = [];
+  enemyBullets = [];
 
   setInterval(function() { updateCanvas(myTank,enemyTank) },15);
 
+}
+
+function makeBullets(bulletArray) {
+  bulletArray.forEach(function(bullet) {
+    bullet.move();
+    var hit = bullet.detectCollisions(enemyTank);
+    if (hit || bullet.coordinates.x < 0 || bullet.coordinates.x > canvas.width || bullet.coordinates.y < 0 || bullet.coordinates.y > canvas.height) {
+      bulletArray.splice(bulletArray.indexOf(bullet),1);
+      bullet = null;
+      if (hit) {
+        // socket.emit('takeDamage', true)
+      }
+    }
+  });
 }
 
 function updateCanvas(myTank,enemyTank) {
@@ -20,19 +35,17 @@ function updateCanvas(myTank,enemyTank) {
   draw(myTank);
   draw(enemyTank);
   myTank.updateTank();
-  bullets.forEach(function(bullet) {
-    bullet.move();
-    var hit = bullet.detectCollisions(enemyTank);
-    if (hit || bullet.coordinates.x < 0 || bullet.coordinates.x > canvas.width || bullet.coordinates.y < 0 || bullet.coordinates.y > canvas.height) {
-      bullets.splice(bullets.indexOf(bullet),1);
-      bullet = null;
-      if (hit) {
-        socket.emit()
-      }
-    }
-  });
+
+  socket.emit('updateBullets',bullets);
+  makeBullets(bullets);
+  console.log(enemyBullets);
+  if (enemyBullets.length !== 0) {
+    drawBullets(enemyBullets);
+  }
+
   socket.emit('canvasUpdate', myTank.getAttributes());
 }
+
 
 function draw(tank) {
   drawTank(tank);

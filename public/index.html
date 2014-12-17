@@ -27,6 +27,9 @@
 			});
 
 				socket.on('canvasUpdate', receiveUpdate);
+				socket.on('updateBullets', function(bullets) {
+					enemyBullets = bullets;
+				});
 
 				$('body').on('click', '#p1', function() {
 					$('#p1').remove();

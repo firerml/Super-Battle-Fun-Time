@@ -16,6 +16,11 @@ io.on('connection', function(client) {
 		client.broadcast.emit('canvasUpdate', data);
 		//client.emit('canvasUpdate', data);
 	});
+
+	client.on('updateBullets', function(data) {
+		client.broadcast.emit('updateBullets',data);
+	});
+
 });
 
 app.use(express.static('public'));
