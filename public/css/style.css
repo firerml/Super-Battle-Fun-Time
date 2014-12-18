@@ -8,22 +8,9 @@ canvas {
 	display: none;
 }
 
-#lobby {
-	height: 100%;
-	width: 100%;
-	background: black;
-	display: none;
-}
-
-#messageinput {
-	width: 90%;
-	height: 50px;
-	font-size: 48px;
-}
-
-#sendmessage {
-	width: 10%;
-}
+/*
+	LOGIN FORM MODAL
+*/
 
 #loginpage {
 	background-color: rgba(0,0,0,0.9);
@@ -48,6 +35,17 @@ canvas {
 	text-align: center;
 }
 
+/*
+	LOBBY CHAT ROOM
+*/
+
+#lobby {
+	height: 100%;
+	width: 100%;
+	background: black;
+	display: none;
+}
+
 .chatcontainer {
 	height: 100%;
 }
@@ -58,7 +56,8 @@ canvas {
 	bottom: 50px;
 	width: 30%;
 	float: left;
-	background: yellow;
+	background: rgba(0,0,0,0.5);
+	border: 3px solid white;
 }
 
 .chatmessagescontainer {
@@ -68,7 +67,8 @@ canvas {
 	left: 30%;
 	width: 70%;
 	float: right;
-	background: green;
+	background: rgba(0,0,0,0.5);
+	border: 3px solid white;
 }
 
 .textinputcontainer {
@@ -76,7 +76,8 @@ canvas {
 	bottom: 5px;
 	width: 100%;
 	height: 50px;
-	background: red;
+	background: rgba(0,0,0,0.5);
+	border: 3px solid white;
 }
 
 .sendbutton {
@@ -86,4 +87,33 @@ canvas {
 	cursor:pointer;
 	height: 55px;
 	width: 10%;
+}
+
+#sendmessage {
+	width: 10%;
+}
+
+#messageinput {
+	width: 90%;
+	height: 50px;
+	font-size: 48px;
+}
+
+.current-users {
+	
+}
+
+.users-title {
+	text-align: center;
+	font-size: 60px;
+}
+
+.username-div {
+	text-align: center;
+	font-size: 40px;
+	border: 3px solid black;
+	margin-right: 10px;
+	margin-left: 5px;
+	margin-top: 10px;
+	letter-spacing: 5px;
 }

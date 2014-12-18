@@ -11,6 +11,13 @@ $('#login-input').keypress(function(event) {
 
 // Socket Events
 socket.on('user joined', function(data) {
-	console.log('User Joined:', data);
+	var usersDiv = $('.current-users');
+	usersDiv.empty();
+	data.forEach(function(object) {
+		var user = $('<div>').addClass('username-div');
+		user.append($('<p>').addClass('username-text').text(object['name']));  
+		user.attr('socketID', object['id']);
+		usersDiv.append(user);		
+	}) 
 });
 
