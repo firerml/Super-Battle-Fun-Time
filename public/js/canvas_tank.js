@@ -16,6 +16,19 @@ function startGame(myName,myColor,enemyName,enemyColor) {
 
 }
 
+function updateCanvas(myTank,enemyTank) {
+  refreshCanvas();
+  draw(myTank);
+  draw(enemyTank);
+  myTank.updateTank();
+
+  socket.emit('updateBullets',bullets);
+  makeBullets(bullets);
+  makeBullets(enemyBullets);
+
+  socket.emit('canvasUpdate', myTank.getAttributes());
+}
+
 function makeBullets(bulletArray) {
   bulletArray.forEach(function(bullet) {
     bullet.move();
@@ -30,27 +43,12 @@ function makeBullets(bulletArray) {
   });
 }
 
-function updateCanvas(myTank,enemyTank) {
-  refreshCanvas();
-  draw(myTank);
-  draw(enemyTank);
-  myTank.updateTank();
-
-  socket.emit('updateBullets',bullets);
-  makeBullets(bullets);
-  if (enemyBullets.length !== 0) {
-    drawBullets(enemyBullets);
-  }
-
-  socket.emit('canvasUpdate', myTank.getAttributes());
-}
-
-
 function draw(tank) {
   drawTank(tank);
   drawArrow();
   drawTurret(tank);
-  if (bullets.length > 0) drawBullets();
+  if (bullets.length > 0) drawBullets(bullets);
+  if (enemyBullets.length > 0) drawBullets(enemyBullets);
 }
 
 function drawTank(tank) {
@@ -83,8 +81,8 @@ function drawTurret(tank) {
   ctx.restore();
 }
 
-function drawBullets() {
-  bullets.forEach(function(bullet) {
+function drawBullets(bulletArray) {
+  bulletArray.forEach(function(bullet) {
     ctx.beginPath();
     ctx.arc(bullet.coordinates.x, bullet.coordinates.y, 5, 0, 2*Math.PI, false);
     ctx.closePath();
