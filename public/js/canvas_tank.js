@@ -23,7 +23,7 @@ function updateCanvas(myTank,enemyTank) {
   socket.emit('canvasUpdate', myTank.getAttributes());
   socket.emit('updateBullets',bullets);
   makeBullets(bullets);
-  makeBullets(enemyBullets);
+  drawBullets(enemyBullets);
 }
 
 function makeBullets(bulletArray) {
