@@ -124,7 +124,22 @@ canvas {
 .username-text {
 	margin-top: 10px;
 	margin-bottom: 10px;
+	display: inline-block;
 }
+
+.challenge-button {
+	border: 3px solid black;
+	border-radius: 10px;
+	text-align: center;
+	font-size: 20px;
+	display: inline-block;
+	float: right;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	margin-right: 20px;
+	
+}
+
 
 .message {
 	font-size: 25px;

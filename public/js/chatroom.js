@@ -1,5 +1,5 @@
+var username;
 $(function() {
-	var username;
 	// Submit username to server with enter
 	$('#login-input').keypress(function(event) {
 		if(event.keyCode == 13) {
@@ -49,7 +49,10 @@ socket.on('user joined', function(data) {
 		var user = $('<div>').addClass('username-div');
 		user.append($('<p>').addClass('username-text').text(object['name']));  
 		user.attr('socketID', object['id']);
-		usersDiv.append(user);		
+		usersDiv.append(user);
+		if (object.name !== username) {
+			user.append($('<div>').addClass('challenge-button').text('Challenge!'));
+		}
 	}); 
 });
 
@@ -61,7 +64,10 @@ socket.on('get users', function(data) {
 			var user = $('<div>').addClass('username-div');
 			user.append($('<p>').addClass('username-text').text(object['name']));  
 			user.attr('socketID', object['id']);
-			usersDiv.append(user);		
+			usersDiv.append(user);
+			if (object.name !== username) {
+				user.append($('<div>').addClass('challenge-button').text('Challenge!'));
+			}
 		}); 
 	}
 });

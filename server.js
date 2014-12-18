@@ -16,6 +16,7 @@ var numUsers = 0;
 io.on('connection', function(client) {
 	var addedUser = false;
 	console.log("Client has connected...");
+	console.log(client);
 
 	// Updates canvus based on the enemy tank's properties
 	client.on('canvasUpdate', function(data) {
