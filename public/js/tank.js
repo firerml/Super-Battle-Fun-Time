@@ -67,8 +67,7 @@ Tank.prototype.moveForward = function() {
     this.velocity = this.maxForwardVelocity;
   }
 
-  this.coordinates.x -= Math.cos(this.angle)*this.velocity;
-  this.coordinates.y -= Math.sin(this.angle)*this.velocity;
+  this.move();
 };
 
 Tank.prototype.moveBackwards = function() {
@@ -79,19 +78,27 @@ Tank.prototype.moveBackwards = function() {
     this.velocity = this.maxBackwardsVelocity;
   }
 
-  this.coordinates.x -= Math.cos(this.angle)*this.velocity;
-  this.coordinates.y -= Math.sin(this.angle)*this.velocity;
+  this.move();
 };
 
 Tank.prototype.slowDown = function() {
   if (this.velocity > 0) {
-    this.coordinates.x -= Math.cos(this.angle)*this.velocity;
-    this.coordinates.y -= Math.sin(this.angle)*this.velocity;
+    this.move();
     this.velocity -= this.decel;
   }
   else {
     this.velocity = 0;
   }
+};
+
+Tank.prototype.move = function() {
+  // var nextX = this.coordinates.x - Math.cos(this.angle)*this.velocity;
+  // var nextY = this.coordinates.y - Math.sin(this.angle)*this.velocity;
+  this.coordinates.x -= Math.cos(this.angle)*this.velocity;
+  this.coordinates.y -= Math.sin(this.angle)*this.velocity;
+  // if (nextX >= 0 && nextX <= canvas.width) this.coordinates.x = nextX;
+  // if (nextX <= ) this.coordinates.x = nextX;
+
 };
 
 Tank.prototype.getAttributes = function() {

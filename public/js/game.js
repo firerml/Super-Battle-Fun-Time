@@ -29,7 +29,6 @@ function receiveUpdate(tankProperties) {
 }
 
 function endMessage() {
-	console.log('yo');
 	var message;
 	if (myTank.gameOver > 0) {
 		message = 'You win!';
