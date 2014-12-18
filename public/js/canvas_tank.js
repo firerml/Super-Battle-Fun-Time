@@ -28,13 +28,14 @@ function updateCanvas(myTank,enemyTank) {
     // How do I remove the myTank object???
     die(dieCenter);
   }
-  draw(myTank);
-  draw(enemyTank);
-  myTank.updateTank();
-
+  else {
+    myTank.updateTank();
+    makeBullets(bullets);
+  }
   socket.emit('canvasUpdate', myTank.getAttributes());
   socket.emit('updateBullets',bullets);
-  makeBullets(bullets);
+  draw(myTank);
+  draw(enemyTank);
   drawBullets(enemyBullets);
 }
 

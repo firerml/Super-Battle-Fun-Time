@@ -18,6 +18,7 @@ var Tank = function(nickname, color) {
   this.leftPressed = false;
 
   this.health = 100;
+  this.dead = false;
 
   var self = this;
   $('body').on('keydown', function(event) {
@@ -102,7 +103,8 @@ Tank.prototype.getAttributes = function() {
     backwardsAccel: this.backwardsAccel,
     decel: this.decel,
     turretAngle: this.turretAngle,
-    health: this.health
+    health: this.health,
+    dead: this.dead
   }
 };
 
@@ -119,6 +121,7 @@ Tank.prototype.setAttributes = function(tankProps) {
   this.decel = tankProps.decel;
   this.turretAngle = tankProps.turretAngle;
   this.health = tankProps.health;
+  this.dead = tankProps.dead;
 };
 
 Tank.prototype.moveTurret = function(mouseX,mouseY) {
