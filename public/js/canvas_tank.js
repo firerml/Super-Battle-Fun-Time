@@ -3,6 +3,8 @@ var firstDeath = true;
 var innerRadius = 5;
 var outerRadius = 10;
 var dieCenter;
+var timer;
+var deathClockSet = false;
 
 function startGame(myName,myColor,enemyName,enemyColor) {
   ctx = $('#canvas')[0].getContext('2d');
@@ -10,32 +12,38 @@ function startGame(myName,myColor,enemyName,enemyColor) {
   ctx.fillRect(0,0,canvas.width,canvas.height);
   myTank = new Tank(myName,myColor);
   enemyTank = new Tank(enemyName,enemyColor);
+
   $('canvas').on('click', function() {
-    myTank.createBullet()
+    if (!myTank.gameOver) {
+      myTank.createBullet()
+    }
   });
+
   bullets = [];
   enemyBullets = [];
-  setInterval(function() { updateCanvas(myTank,enemyTank) },15);
+  timer = setInterval(function() { updateCanvas(myTank,enemyTank) },15);
 }
 
 function updateCanvas(myTank,enemyTank) {
   refreshCanvas();
-  if (myTank.health < 0) {
-    if (firstDeath) {
-      dieCenter = myTank.coordinates;
-      firstDeath = false;
-    }
-    // How do I remove the myTank object???
-    die(dieCenter);
-  }
-  draw(myTank);
   draw(enemyTank);
-  myTank.updateTank();
-
+  draw(myTank);
+  drawBullets(enemyBullets);
+  if (myTank.health < 0 && firstDeath) {
+    myTank.gameOver = -1;
+    dieCenter = myTank.coordinates;
+    socket.emit('iLost', dieCenter);
+    firstDeath = false;
+  }
+  if (!myTank.gameOver) {
+    myTank.updateTank();
+    makeBullets(bullets);
+  }
+  else {
+    dieAnim(dieCenter);
+  }
   socket.emit('canvasUpdate', myTank.getAttributes());
   socket.emit('updateBullets',bullets);
-  makeBullets(bullets);
-  drawBullets(enemyBullets);
 }
 
 function makeBullets(bulletArray) {
@@ -107,7 +115,14 @@ function refreshCanvas() {
   ctx.restore();
 }
 
-function die(dieCenter) {
+function dieAnim(dieCenter) {
+  if (!deathClockSet) {
+    deathClockSet = true;
+    setTimeout(function() {
+      clearInterval(timer);
+      endMessage();
+    },2000);
+  }
   var grd = ctx.createRadialGradient(dieCenter.x, dieCenter.y, innerRadius, dieCenter.x, dieCenter.y, outerRadius);
   grd.addColorStop(0, "yellow");
   grd.addColorStop(0.5, "orange");
@@ -117,7 +132,6 @@ function die(dieCenter) {
   ctx.arc(dieCenter.x, dieCenter.y, outerRadius, 0, Math.PI*2, true);
   ctx.closePath()
   ctx.fill();
-  innerRadius*=1.01;
-  outerRadius*=1.02;
+  innerRadius*=1.02;
+  outerRadius*=1.03;
 }
-// module.exports = startGame()

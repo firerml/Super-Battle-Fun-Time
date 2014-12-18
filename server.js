@@ -36,6 +36,10 @@ io.on('connection', function(client) {
 		client.emit('send message', data);
 	});
 
+	client.on('iLost', function(dieCenter) {
+		client.broadcast.emit('iLost', dieCenter);
+	});
+
 	// Listen for client emiting 'add user' event
 	client.on('add user', function(username) {
 		console.log(client.id);
@@ -57,7 +61,7 @@ io.on('connection', function(client) {
 		client.broadcast.emit('updateBullets',data);
 	});
 
-	// When client's socket disconnects, remove user from 
+	// When client's socket disconnects, remove user from
 	// array of usernames, and broadcast updated usernames
 	client.on('disconnect', function() {
 		if(addedUser) {
