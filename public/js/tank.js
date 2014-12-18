@@ -18,21 +18,25 @@ var Tank = function(nickname, color) {
   this.leftPressed = false;
 
   this.health = 100;
-  this.dead = false;
+  this.gameOver = 0;
 
   var self = this;
   $('body').on('keydown', function(event) {
     // event.preventDefault();
-    if (event.keyCode === 38 || event.keyCode === 87) self.upPressed = true;
-    if (event.keyCode === 39 || event.keyCode === 68) self.rightPressed = true;
-    if (event.keyCode === 37 || event.keyCode === 65) self.leftPressed = true;
-    if (event.keyCode === 40 || event.keyCode === 83) self.downPressed = true;
+    if (!self.gameOver) {
+      if (event.keyCode === 38 || event.keyCode === 87) self.upPressed = true;
+      if (event.keyCode === 39 || event.keyCode === 68) self.rightPressed = true;
+      if (event.keyCode === 37 || event.keyCode === 65) self.leftPressed = true;
+      if (event.keyCode === 40 || event.keyCode === 83) self.downPressed = true;
+    }
   });
   $('body').on('keyup', function(event) {
-    if (event.keyCode === 38 || event.keyCode === 87) self.upPressed = false;
-    if (event.keyCode === 39 || event.keyCode === 68) self.rightPressed = false;
-    if (event.keyCode === 37 || event.keyCode === 65) self.leftPressed = false;
-    if (event.keyCode === 40 || event.keyCode === 83) self.downPressed = false;
+    if (!self.gameOver) {
+      if (event.keyCode === 38 || event.keyCode === 87) self.upPressed = false;
+      if (event.keyCode === 39 || event.keyCode === 68) self.rightPressed = false;
+      if (event.keyCode === 37 || event.keyCode === 65) self.leftPressed = false;
+      if (event.keyCode === 40 || event.keyCode === 83) self.downPressed = false;
+    }
   });
 };
 
@@ -63,8 +67,7 @@ Tank.prototype.moveForward = function() {
     this.velocity = this.maxForwardVelocity;
   }
 
-  this.coordinates.x -= Math.cos(this.angle)*this.velocity;
-  this.coordinates.y -= Math.sin(this.angle)*this.velocity;
+  this.move();
 };
 
 Tank.prototype.moveBackwards = function() {
@@ -75,19 +78,27 @@ Tank.prototype.moveBackwards = function() {
     this.velocity = this.maxBackwardsVelocity;
   }
 
-  this.coordinates.x -= Math.cos(this.angle)*this.velocity;
-  this.coordinates.y -= Math.sin(this.angle)*this.velocity;
+  this.move();
 };
 
 Tank.prototype.slowDown = function() {
   if (this.velocity > 0) {
-    this.coordinates.x -= Math.cos(this.angle)*this.velocity;
-    this.coordinates.y -= Math.sin(this.angle)*this.velocity;
+    this.move();
     this.velocity -= this.decel;
   }
   else {
     this.velocity = 0;
   }
+};
+
+Tank.prototype.move = function() {
+  // var nextX = this.coordinates.x - Math.cos(this.angle)*this.velocity;
+  // var nextY = this.coordinates.y - Math.sin(this.angle)*this.velocity;
+  this.coordinates.x -= Math.cos(this.angle)*this.velocity;
+  this.coordinates.y -= Math.sin(this.angle)*this.velocity;
+  // if (nextX >= 0 && nextX <= canvas.width) this.coordinates.x = nextX;
+  // if (nextX <= ) this.coordinates.x = nextX;
+
 };
 
 Tank.prototype.getAttributes = function() {
@@ -104,7 +115,7 @@ Tank.prototype.getAttributes = function() {
     decel: this.decel,
     turretAngle: this.turretAngle,
     health: this.health,
-    dead: this.dead
+    gameOver: this.gameOver
   }
 };
 
@@ -121,7 +132,7 @@ Tank.prototype.setAttributes = function(tankProps) {
   this.decel = tankProps.decel;
   this.turretAngle = tankProps.turretAngle;
   this.health = tankProps.health;
-  this.dead = tankProps.dead;
+  this.gameOver = tankProps.gameOver;
 };
 
 Tank.prototype.moveTurret = function(mouseX,mouseY) {
@@ -151,11 +162,5 @@ Tank.prototype.getCorners = function() {
         y: this.coordinates.y + hyp*Math.sin(rotAngle) };
   return {tL: tL, tR: tR, bL: bL, bR: bR};
 };
-
-Tank.prototype.takeDamage = function(weapon) {
-  if (weapon === 'bullet') {
-    this.health -= 50;
-  }
-}
 
 //module.exports = new Tank('Mike')
