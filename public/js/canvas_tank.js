@@ -11,9 +11,7 @@ function startGame(myName,myColor,enemyName,enemyColor) {
   });
   bullets = [];
   enemyBullets = [];
-
   setInterval(function() { updateCanvas(myTank,enemyTank) },15);
-
 }
 
 function updateCanvas(myTank,enemyTank) {
@@ -30,7 +28,9 @@ function updateCanvas(myTank,enemyTank) {
 }
 
 function makeBullets(bulletArray) {
+  console.log(bulletArray);
   bulletArray.forEach(function(bullet) {
+    console.log(bullet);
     bullet.move();
     var hit = bullet.detectCollisions(enemyTank);
     if (hit || bullet.coordinates.x < 0 || bullet.coordinates.x > canvas.width || bullet.coordinates.y < 0 || bullet.coordinates.y > canvas.height) {
