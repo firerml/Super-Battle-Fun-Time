@@ -42,11 +42,10 @@ io.on('connection', function(client) {
 		});
 	});
 
-	// Listen for client emiting 'updateBullets', event
+	// Listen for client emiting 'updateBullets' event
 	client.on('updateBullets', function(data) {
 		client.broadcast.emit('updateBullets',data);
 	});
-
 });
 
 // Load files that are in the public directory
