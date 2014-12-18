@@ -1,4 +1,8 @@
 var ctx;
+var firstDeath = true;
+var innerRadius = 5;
+var outerRadius = 10;
+var dieCenter;
 
 function startGame(myName,myColor,enemyName,enemyColor) {
   ctx = $('#canvas')[0].getContext('2d');
@@ -16,6 +20,14 @@ function startGame(myName,myColor,enemyName,enemyColor) {
 
 function updateCanvas(myTank,enemyTank) {
   refreshCanvas();
+  if (myTank.health < 0) {
+    if (firstDeath) {
+      dieCenter = myTank.coordinates;
+      firstDeath = false;
+    }
+    // How do I remove the myTank object???
+    die(dieCenter);
+  }
   draw(myTank);
   draw(enemyTank);
   myTank.updateTank();
@@ -34,7 +46,7 @@ function makeBullets(bulletArray) {
       bulletArray.splice(bulletArray.indexOf(bullet),1);
       bullet = null;
       if (hit) {
-        // socket.emit('takeDamage', true)
+        socket.emit('takeDamage', 5);
       }
     }
   });
@@ -95,4 +107,17 @@ function refreshCanvas() {
   ctx.restore();
 }
 
+function die(dieCenter) {
+  var grd = ctx.createRadialGradient(dieCenter.x, dieCenter.y, innerRadius, dieCenter.x, dieCenter.y, outerRadius);
+  grd.addColorStop(0, "yellow");
+  grd.addColorStop(0.5, "orange");
+  grd.addColorStop(1, "red");
+  ctx.fillStyle = grd;
+  ctx.beginPath()
+  ctx.arc(dieCenter.x, dieCenter.y, outerRadius, 0, Math.PI*2, true);
+  ctx.closePath()
+  ctx.fill();
+  innerRadius*=1.01;
+  outerRadius*=1.02;
+}
 // module.exports = startGame()
