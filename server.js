@@ -26,6 +26,10 @@ io.on('connection', function(client) {
 		client.broadcast.emit('takeDamage', damage);
 	});
 
+	client.on('iLost', function(dieCenter) {
+		client.broadcast.emit('iLost', dieCenter);
+	});
+
 	// Listen for client emiting 'add user' event
 	client.on('add user', function(username) {
 		console.log(client.id);

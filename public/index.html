@@ -4,6 +4,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Battle Tanks</title>
+		<link href='http://fonts.googleapis.com/css?family=Play:700' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="/css/style.css">
 		<script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
@@ -40,7 +41,7 @@
 				// $.get('/socket').done(function(data) {
 				var scriptElement = document.createElement('script');
 				scriptElement.src = '/js/socket.js';
-				$('#splashpage').hide();	
+				$('#splashpage').hide();
 				$('#lobby').show();
 				$('#loginpage').show();
 				$('body').append(scriptElement);
@@ -48,7 +49,7 @@
 				// });
 			}
 
-			function loadChatroom() {	
+			function loadChatroom() {
 				var scriptElem = document.createElement('script');
 				scriptElem.src = '/js/chatroom.js';
 				document.body.appendChild(scriptElem);
@@ -62,19 +63,19 @@
 
 		<div class='player-button' id='p1'>Player 1</div>
 		<div class='player-button' id='p2'>Player 2</div>
-		
+
 		<div id="splashpage">
 			<h1>Battle Tanks</h1>
-			<button id="splashbutton">Go to battle</button>	
+			<button id="splashbutton">Go to battle</button>
 		</div>
 
 		<div id="lobby">
 			<div class="chatcontainer">
 				<div class="userscontainer">
-					
+
 				</div>
 				<div class="chatmessagescontainer">
-					
+
 				</div>
 			</div>
 			<div class="textinputcontainer">

@@ -1,7 +1,9 @@
 $(function() {
 
 	$('canvas').mousemove(function(event) {
-		myTank.moveTurret(event.pageX,event.pageY);
+		if (!myTank.gameOver) {
+			myTank.moveTurret(event.pageX,event.pageY);
+		}
 	});
 
 
@@ -16,8 +18,25 @@ $(function() {
 		myTank.health -= damage;
 	});
 
+	socket.on('iLost', function(enemyDieCenter) {
+		myTank.gameOver = 1;
+		dieCenter = enemyDieCenter;
+	});
 });
 
 function receiveUpdate(tankProperties) {
 	enemyTank.setAttributes(tankProperties);
+}
+
+function endMessage() {
+	console.log('yo');
+	var message;
+	if (myTank.gameOver > 0) {
+		message = 'You win!';
+	}
+	else if (myTank.gameOver < 0) {
+		message = 'You lose!';
+	}
+	endMessage = $('<div>').attr('id','end-message').text(message);
+	$('body').append(endMessage);
 }
