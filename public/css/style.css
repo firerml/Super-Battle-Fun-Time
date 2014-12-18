@@ -8,22 +8,9 @@ canvas {
 	display: none;
 }
 
-#lobby {
-	height: 100%;
-	width: 100%;
-	background: black;
-	display: none;
-}
-
-#messageinput {
-	width: 90%;
-	height: 50px;
-	font-size: 48px;
-}
-
-#sendmessage {
-	width: 10%;
-}
+/*
+	LOGIN FORM MODAL
+*/
 
 #loginpage {
 	background-color: rgba(0,0,0,0.9);
@@ -46,6 +33,17 @@ canvas {
 	height: 60px;
 	font-size: 50px;
 	text-align: center;
+}
+
+/*
+	LOBBY CHAT ROOM
+*/
+
+#lobby {
+	height: 100%;
+	width: 100%;
+	background: black;
+	display: none;
 }
 
 .chatcontainer {
@@ -86,4 +84,14 @@ canvas {
 	cursor:pointer;
 	height: 55px;
 	width: 10%;
+}
+
+#sendmessage {
+	width: 10%;
+}
+
+#messageinput {
+	width: 90%;
+	height: 50px;
+	font-size: 48px;
 }

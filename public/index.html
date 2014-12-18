@@ -36,16 +36,10 @@
 
 			// Establishes socket connection and loads chat lobby
 			function connectToLobby() {
-				// AJAX request for socket.js to open a socket connection
-				// $.get('/socket').done(function(data) {
-				var scriptElement = document.createElement('script');
-				scriptElement.src = '/js/socket.js';
 				$('#splashpage').hide();	
 				$('#lobby').show();
 				$('#loginpage').show();
-				$('body').append(scriptElement);
 				loadChatroom();
-				// });
 			}
 
 			function loadChatroom() {	

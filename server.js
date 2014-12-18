@@ -35,12 +35,14 @@ io.on('connection', function(client) {
 			username: username,
 			userID: client.id
 		});
+		// echo object back to client
 		client.emit('user joined', {
 			username: username,
 			userID: client.id
 		});
 	});
 
+	// Listen for client emiting 'updateBullets', event
 	client.on('updateBullets', function(data) {
 		client.broadcast.emit('updateBullets',data);
 	});
