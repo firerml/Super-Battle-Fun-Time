@@ -26,6 +26,15 @@ io.on('connection', function(client) {
 		client.broadcast.emit('takeDamage', damage);
 	});
 
+	client.on('get users', function(data) {
+		client.emit('get users', usernames)
+	});
+
+	client.on('send message', function(data) {
+		client.broadcast.emit('send message', data);
+		client.emit('send message', data);
+	});
+
 	// Listen for client emiting 'add user' event
 	client.on('add user', function(username) {
 		console.log(client.id);
@@ -53,7 +62,7 @@ io.on('connection', function(client) {
 		if(addedUser) {
 			usernames.forEach(function(object) {
 				if(object['id'] == client.id) {
-					usernames.pop(object);
+					usernames.splice(usernames.indexOf(object),1);
 					--numUsers;
 				}
 			})
