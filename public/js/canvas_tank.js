@@ -20,17 +20,14 @@ function updateCanvas(myTank,enemyTank) {
   draw(enemyTank);
   myTank.updateTank();
 
+  socket.emit('canvasUpdate', myTank.getAttributes());
   socket.emit('updateBullets',bullets);
   makeBullets(bullets);
   makeBullets(enemyBullets);
-
-  socket.emit('canvasUpdate', myTank.getAttributes());
 }
 
 function makeBullets(bulletArray) {
-  console.log(bulletArray);
   bulletArray.forEach(function(bullet) {
-    console.log(bullet);
     bullet.move();
     var hit = bullet.detectCollisions(enemyTank);
     if (hit || bullet.coordinates.x < 0 || bullet.coordinates.x > canvas.width || bullet.coordinates.y < 0 || bullet.coordinates.y > canvas.height) {
