@@ -58,6 +58,7 @@ canvas {
 	float: left;
 	background: rgba(0,0,0,0.5);
 	border: 3px solid white;
+	overflow: auto;
 }
 
 .chatmessagescontainer {
@@ -66,9 +67,11 @@ canvas {
 	bottom: 50px;
 	left: 30%;
 	width: 70%;
+	max-width: 70%;
 	float: right;
 	background: rgba(0,0,0,0.5);
 	border: 3px solid white;
+	overflow: auto;
 }
 
 .textinputcontainer {
@@ -116,4 +119,18 @@ canvas {
 	margin-left: 5px;
 	margin-top: 10px;
 	letter-spacing: 5px;
+}
+
+.username-text {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.message {
+	font-size: 25px;
+	margin-left: 10px;
+}
+
+.username {
+	font-weight: bold;
 }

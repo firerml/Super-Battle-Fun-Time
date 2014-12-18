@@ -7,14 +7,17 @@
 		<link rel="stylesheet" href="/css/style.css">
 		<script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="js/socket.js"></script>
 		<script type="text/javascript" src="js/canvas_tank.js"></script>
 		<script type="text/javascript" src="js/bullet.js"></script>
 		<script type="text/javascript" src="js/tank.js"></script>
 		<script type="text/javascript" src="js/game.js"></script>
-
+		<script type="text/javascript" src="js/chatroom.js"></script>
 		<script>
 
-			socket = io.connect();
+			// socket = io.connect();
+
+			socket.emit('get users', "getting users");
 
 		  $(function() {
 				// Make lobby appear
@@ -39,14 +42,14 @@
 				$('#splashpage').hide();	
 				$('#lobby').show();
 				$('#loginpage').show();
-				loadChatroom();
+				//loadChatroom();
 			}
 
-			function loadChatroom() {	
-				var scriptElem = document.createElement('script');
-				scriptElem.src = '/js/chatroom.js';
-				document.body.appendChild(scriptElem);
-			}
+			// function loadChatroom() {	
+			// 	var scriptElem = document.createElement('script');
+			// 	scriptElem.src = '/js/chatroom.js';
+			// 	document.body.appendChild(scriptElem);
+			// }
 		</script>
 
 	</head>
