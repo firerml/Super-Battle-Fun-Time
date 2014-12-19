@@ -25,22 +25,18 @@
 				$('#splashbutton').on('click', connectToLobby);
 
 				$('body').on('click', '#p1', function() {
-					$('#p1').remove();
-					$('#p2').remove();
-					$('canvas').show();
-					startGame('p', 'red', 'q', 'blue');
+					startGame('p', '#D711ED', 'q', '#11CF00');
 				});
 				$('body').on('click', '#p2', function() {
-					$('#p1').remove();
-					$('#p2').remove();
-					$('canvas').show();
-					startGame('q', 'blue','p', 'red');
+					startGame('q', '#11CF00','p', '#D711ED');
 				});
 			});
 
 			// Establishes socket connection and loads chat lobby
 			function connectToLobby() {
 				$('#splashpage').hide();
+				$('#p1').hide();
+				$('#p2').hide();
 				// AJAX request for socket.js to open a socket connection
 				// $.get('/socket').done(function(data) {
 				var scriptElement = document.createElement('script');
@@ -57,13 +53,13 @@
 		<div class='player-button' id='p1'>Player 1</div>
 		<div class='player-button' id='p2'>Player 2</div>
 		<div id="splashpage">
-			<h1>Battle Tanks</h1>
+			<h1 id='main-title'>Battle Tanks</h1>
 			<button id="splashbutton">Go to battle</button>
 		</div>
 		<div id="lobby">
 			<div class="chatcontainer">
 				<div class="userscontainer">
-					<h1 class="users-title">Users Connected</h1>
+					<h1 class="users-title">Users</h1>
 					<div class="current-users">
 					</div>
 				</div>

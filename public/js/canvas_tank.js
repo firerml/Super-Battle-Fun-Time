@@ -7,6 +7,12 @@ var timer;
 var deathClockSet = false;
 
 function startGame(myName,myColor,enemyName,enemyColor) {
+  $('#p1').remove();
+  $('#p2').remove();
+  $('canvas').show();
+  $('#main-title').hide();
+  $('#splashpage').hide();
+  $('#lobby').hide();
   ctx = $('#canvas')[0].getContext('2d');
   ctx.fillStyle = 'lavender';
   ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -90,14 +96,14 @@ function drawArrow() {
   ctx.lineTo(-5,-6);
   ctx.lineTo(-5,6);
   ctx.closePath();
-  ctx.fillStyle = 'green';
+  ctx.fillStyle = '#006918';
   ctx.fill();
 }
 
 function drawTurret(tank) {
   ctx.save();
   ctx.translate(tank.coordinates.x,tank.coordinates.y);
-  ctx.fillStyle = 'purple';
+  ctx.fillStyle = 'lime';
   ctx.rotate(tank.turretAngle);
   ctx.fillRect(-3,0,6,-30);
   ctx.restore();
@@ -108,14 +114,14 @@ function drawBullets(bulletArray) {
     ctx.beginPath();
     ctx.arc(bullet.coordinates.x, bullet.coordinates.y, 5, 0, 2*Math.PI, false);
     ctx.closePath();
-    ctx.fillStyle = 'red';
+    ctx.fillStyle = 'lime';
     ctx.fill();
   });
 }
 
 function refreshCanvas() {
   ctx.save();
-  ctx.fillStyle = 'lavender';
+  ctx.fillStyle = 'black';
   ctx.fillRect(0,0,canvas.width,canvas.height);
   ctx.restore();
 }
@@ -129,9 +135,9 @@ function dieAnim(dieCenter) {
     },2000);
   }
   var grd = ctx.createRadialGradient(dieCenter.x, dieCenter.y, innerRadius, dieCenter.x, dieCenter.y, outerRadius);
-  grd.addColorStop(0, "yellow");
-  grd.addColorStop(0.5, "orange");
-  grd.addColorStop(1, "red");
+  grd.addColorStop(0, "lime");
+  grd.addColorStop(0.5, "#2BB31E");
+  grd.addColorStop(1, "#1C8212");
   ctx.fillStyle = grd;
   ctx.beginPath()
   ctx.arc(dieCenter.x, dieCenter.y, outerRadius, 0, Math.PI*2, true);

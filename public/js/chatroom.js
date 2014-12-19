@@ -1,4 +1,5 @@
 var username;
+var enemyid;
 $(function() {
 	// Submit username to server with enter
 	$('#login-input').keypress(function(event) {
@@ -11,19 +12,18 @@ $(function() {
 				var copyName = false;
 				if (allUsersNames.length > 0) {
 					for (var i = 0; i < allUsersNames.length; i++) {
-						console.log(username, allUsersNames.eq(i).text());
 						if (allUsersNames.eq(i).text() === username) {
 							alert("That username is taken!");
 							copyName = true;
 						}
-					}			
+					}
 				}
-				if (!copyName) {			
+				if (!copyName) {
 					socket.emit('add user', username);
 					$('#login-input').val('');
 					$('#loginpage').hide();
 				}
-			}	
+			}
 		}
 	});
 
@@ -38,7 +38,18 @@ $(function() {
 				$('#messageinput').val('');
 			}
 		}
-	});	
+	});
+
+	$('body').on('click', '.challenge-button', function() {
+	  enemyid = $(this).parent().attr('socketid');
+	  socket.emit('send challenge', {enemy: enemyid, player: socket.io.engine.id});
+	});
+
+	$('body').on('click', '.challenge-message', function(event) {
+		var enId = $(this).attr('invitation-id');
+		socket.emit('commence game',{enemy: enId, player: socket.io.engine.id});
+		console.log('telling server to start game');
+	});
 });
 
 // Socket Events
@@ -47,13 +58,13 @@ socket.on('user joined', function(data) {
 	usersDiv.empty();
 	data.forEach(function(object) {
 		var user = $('<div>').addClass('username-div');
-		user.append($('<p>').addClass('username-text').text(object['name']));  
+		user.append($('<p>').addClass('username-text').text(object['name']));
 		user.attr('socketID', object['id']);
 		usersDiv.append(user);
 		if (object.name !== username) {
 			user.append($('<div>').addClass('challenge-button').text('Challenge!'));
 		}
-	}); 
+	});
 });
 
 socket.on('get users', function(data) {
@@ -62,13 +73,13 @@ socket.on('get users', function(data) {
 	if (data.length > 0) {
 		data.forEach(function(object) {
 			var user = $('<div>').addClass('username-div');
-			user.append($('<p>').addClass('username-text').text(object['name']));  
+			user.append($('<p>').addClass('username-text').text(object['name']));
 			user.attr('socketID', object['id']);
 			usersDiv.append(user);
 			if (object.name !== username) {
 				user.append($('<div>').addClass('challenge-button').text('Challenge!'));
 			}
-		}); 
+		});
 	}
 });
 
@@ -78,4 +89,16 @@ socket.on('send message', function(data) {
 	var userTag = $('<span>').addClass('username').text(data.name + ": ");
 	messageTag.prepend(userTag);
 	chatmessages.append(messageTag);
-})
+});
+
+// Receiving a challenge
+socket.on('send challenge', function(data) {
+	var message = $('<p>').addClass('message').addClass('challenge-message').text(data.player + ' has challenged you! Click me to accept.').attr('invitation-id',data.player);
+	$('.chatmessagescontainer').append(message);
+});
+
+//this guy ain't receiving crap!!
+socket.on('commence game', function(players) {
+	console.log('got your message, let us play!');
+	startGame(players.enemy, '#11CF00', players.player, '#D711ED');
+});

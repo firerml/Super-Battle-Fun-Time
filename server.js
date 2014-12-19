@@ -40,7 +40,6 @@ io.on('connection', function(client) {
 
 	// Listen for client emiting 'add user' event
 	client.on('add user', function(username) {
-		console.log(client.id);
 		// add the clients username to the global list of users
 		var userObj = {};
 		userObj['name'] = username;
@@ -54,9 +53,24 @@ io.on('connection', function(client) {
 		client.emit('user joined', usernames);
 	});
 
+	client.on('send challenge', function(data) {
+	  var enemyid = data['enemy'];
+	  var playerid = data['player'];
+	  client.broadcast.emit('send challenge', data);
+	});
+
 	// Listen for client emiting 'updateBullets' event
 	client.on('updateBullets', function(data) {
 		client.broadcast.emit('updateBullets',data);
+	});
+
+	client.on('commence game', function(data) {
+		console.log('Server got your commence game message!');
+		console.log(data['enemy']);
+		client.broadcast.to(data['enemy']).emit('commence game',data);
+		var newData = {player: data.enemy, enemy: data.player};
+		client.emit('commence game',newData);
+		// startGame(data.player, '#D711ED', data.enemy, '#11CF00');
 	});
 
 	// When client's socket disconnects, remove user from
@@ -72,6 +86,7 @@ io.on('connection', function(client) {
 		}
 		client.broadcast.emit('user joined', usernames);
 	});
+
 });
 
 // Load files that are in the public directory
