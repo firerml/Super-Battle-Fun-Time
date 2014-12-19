@@ -18,9 +18,10 @@ $(function() {
 		myTank.health -= damage;
 	});
 
-	socket.on('iLost', function(enemyDieCenter) {
+	socket.on('iLost', function(data) {
 		myTank.gameOver = 1;
-		dieCenter = enemyDieCenter;
+		dieCenter = data.dieCenter;
+		explosionColor = data.color.explosion;
 	});
 });
 

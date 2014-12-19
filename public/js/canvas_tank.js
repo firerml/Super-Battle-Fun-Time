@@ -3,12 +3,11 @@ var firstDeath = true;
 var innerRadius = 5;
 var outerRadius = 10;
 var dieCenter;
+var explosionColor;
 var timer;
 var deathClockSet = false;
 
 function startGame(myName,myColor,enemyName,enemyColor) {
-  $('#p1').remove();
-  $('#p2').remove();
   $('canvas').show();
   $('#main-title').hide();
   $('#splashpage').hide();
@@ -38,7 +37,8 @@ function updateCanvas(myTank,enemyTank) {
   if (myTank.health <= 0 && firstDeath) {
     myTank.gameOver = -1;
     dieCenter = myTank.coordinates;
-    socket.emit('iLost', dieCenter);
+    explosionColor = myTank.color.explosion;
+    socket.emit('iLost', {dieCenter: dieCenter,color: myTank.color});
     firstDeath = false;
   }
   if (!myTank.gameOver) {
@@ -46,7 +46,7 @@ function updateCanvas(myTank,enemyTank) {
     makeBullets(bullets);
   }
   else {
-    dieAnim(dieCenter);
+    dieAnim(dieCenter,explosionColor);
   }
   socket.emit('canvasUpdate', myTank.getAttributes());
   socket.emit('updateBullets',bullets);
@@ -68,7 +68,6 @@ function makeBullets(bulletArray) {
 
 function draw(tank) {
   drawTank(tank);
-  drawArrow();
   drawTurret(tank);
   if (bullets.length > 0) drawBullets(bullets);
   if (enemyBullets.length > 0) drawBullets(enemyBullets);
@@ -81,29 +80,29 @@ function drawTank(tank) {
   var fillPercent = tank.health/100;
   var emptyWidth = tank.dimensions.width - fillPercent*tank.dimensions.width;
   var fullWidth = fillPercent*tank.dimensions.width;
-  ctx.fillStyle = tank.color;
-  ctx.strokeStyle = tank.color;
+  ctx.fillStyle = tank.color.main;
+  ctx.strokeStyle = tank.color.main;
   ctx.strokeRect(tank.dimensions.width*(-0.5), tank.dimensions.height*(-0.5), emptyWidth, tank.dimensions.height);
   ctx.fillRect(tank.dimensions.width*(-0.5) + emptyWidth, tank.dimensions.height*(-0.5), fullWidth, tank.dimensions.height);
-  drawArrow();
+  drawArrow(tank);
   ctx.restore();
 }
 
-function drawArrow() {
+function drawArrow(tank) {
   ctx.beginPath();
   ctx.translate(0,0);
   ctx.moveTo(-13,0);
   ctx.lineTo(-5,-6);
   ctx.lineTo(-5,6);
   ctx.closePath();
-  ctx.fillStyle = '#006918';
+  ctx.fillStyle = tank.color.extra;
   ctx.fill();
 }
 
 function drawTurret(tank) {
   ctx.save();
   ctx.translate(tank.coordinates.x,tank.coordinates.y);
-  ctx.fillStyle = 'lime';
+  ctx.fillStyle = tank.color.extra;
   ctx.rotate(tank.turretAngle);
   ctx.fillRect(-3,0,6,-30);
   ctx.restore();
@@ -126,7 +125,7 @@ function refreshCanvas() {
   ctx.restore();
 }
 
-function dieAnim(dieCenter) {
+function dieAnim(dieCenter,explosionColor) {
   if (!deathClockSet) {
     deathClockSet = true;
     setTimeout(function() {
@@ -135,9 +134,9 @@ function dieAnim(dieCenter) {
     },2000);
   }
   var grd = ctx.createRadialGradient(dieCenter.x, dieCenter.y, innerRadius, dieCenter.x, dieCenter.y, outerRadius);
-  grd.addColorStop(0, "lime");
-  grd.addColorStop(0.5, "#2BB31E");
-  grd.addColorStop(1, "#1C8212");
+  grd.addColorStop(0, explosionColor[0]);
+  grd.addColorStop(0.5, explosionColor[1]);
+  grd.addColorStop(1, explosionColor[2]);
   ctx.fillStyle = grd;
   ctx.beginPath()
   ctx.arc(dieCenter.x, dieCenter.y, outerRadius, 0, Math.PI*2, true);

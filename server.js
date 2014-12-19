@@ -34,8 +34,8 @@ io.on('connection', function(client) {
 		client.emit('send message', data);
 	});
 
-	client.on('iLost', function(dieCenter) {
-		client.broadcast.emit('iLost', dieCenter);
+	client.on('iLost', function(data) {
+		client.broadcast.emit('iLost', data);
 	});
 
 	// Listen for client emiting 'add user' event
@@ -68,9 +68,8 @@ io.on('connection', function(client) {
 		console.log('Server got your commence game message!');
 		console.log(data['enemy']);
 		client.broadcast.to(data['enemy']).emit('commence game',data);
-		var newData = {player: data.enemy, enemy: data.player};
+		var newData = {player: data.enemy, playerColor: data.enemyColor, enemy: data.player, enemyColor: data.playerColor};
 		client.emit('commence game',newData);
-		// startGame(data.player, '#D711ED', data.enemy, '#11CF00');
 	});
 
 	// When client's socket disconnects, remove user from

@@ -47,7 +47,9 @@ $(function() {
 
 	$('body').on('click', '.challenge-message', function(event) {
 		var enId = $(this).attr('invitation-id');
-		socket.emit('commence game',{enemy: enId, player: socket.io.engine.id});
+		var greens = {main: '#11CF00', extra: '#D711ED', explosion: ['lime','#2BB31E','#1C8212']}
+		var purples = {main: '#D711ED', extra: '#11CF00', explosion: ['#D711ED','#AC0DBD','#6B0876']}
+		socket.emit('commence game',{enemy: enId, enemyColor: greens, player: socket.io.engine.id, playerColor: purples});
 		console.log('telling server to start game');
 	});
 });
@@ -97,8 +99,7 @@ socket.on('send challenge', function(data) {
 	$('.chatmessagescontainer').append(message);
 });
 
-//this guy ain't receiving crap!!
 socket.on('commence game', function(players) {
 	console.log('got your message, let us play!');
-	startGame(players.enemy, '#11CF00', players.player, '#D711ED');
+	startGame(players.enemy, players.enemyColor, players.player, players.playerColor);
 });

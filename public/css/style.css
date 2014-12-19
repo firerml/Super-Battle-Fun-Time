@@ -13,6 +13,20 @@ canvas {
   border-bottom: solid 5px lime;
 }
 
+#main-title {
+  text-align: center;
+  font-size: 50px;
+}
+
+#splashbutton {
+  text-align: center;
+  border: solid 5px lime;
+  font-size: 20px;
+  padding: 10px;
+  margin-left: 40%;
+  margin-right: 40%;
+}
+
 /*
 	LOGIN FORM MODAL
 */
