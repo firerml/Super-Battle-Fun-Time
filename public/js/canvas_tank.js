@@ -29,7 +29,7 @@ function updateCanvas(myTank,enemyTank) {
   draw(enemyTank);
   draw(myTank);
   drawBullets(enemyBullets);
-  if (myTank.health < 0 && firstDeath) {
+  if (myTank.health <= 0 && firstDeath) {
     myTank.gameOver = -1;
     dieCenter = myTank.coordinates;
     socket.emit('iLost', dieCenter);
@@ -71,9 +71,14 @@ function draw(tank) {
 function drawTank(tank) {
   ctx.save();
   ctx.translate(tank.coordinates.x,tank.coordinates.y);
-  ctx.fillStyle = tank.color;
   ctx.rotate(tank.angle);
-  ctx.fillRect(tank.dimensions.width*(-0.5),tank.dimensions.height*(-0.5),tank.dimensions.width,tank.dimensions.height);
+  var fillPercent = tank.health/100;
+  var emptyWidth = tank.dimensions.width - fillPercent*tank.dimensions.width;
+  var fullWidth = fillPercent*tank.dimensions.width;
+  ctx.fillStyle = tank.color;
+  ctx.strokeStyle = tank.color;
+  ctx.strokeRect(tank.dimensions.width*(-0.5), tank.dimensions.height*(-0.5), emptyWidth, tank.dimensions.height);
+  ctx.fillRect(tank.dimensions.width*(-0.5) + emptyWidth, tank.dimensions.height*(-0.5), fullWidth, tank.dimensions.height);
   drawArrow();
   ctx.restore();
 }
