@@ -1,6 +1,6 @@
 var Tank = function(nickname, color) {
   this.player = nickname;
-  this.coordinates = { x: 400 * Math.random(), y: 400 * Math.random() };
+  this.coordinates = { x: 400 * Math.random() + 100, y: 400 * Math.random() + 100 };
   this.dimensions = {width: 30, height: 30};
   this.velocity = 0;
   this.angle = (90 * Math.PI/180);
