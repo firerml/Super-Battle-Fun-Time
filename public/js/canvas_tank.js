@@ -49,7 +49,7 @@ function updateCanvas(myTank,enemyTank) {
 function makeBullets(bulletArray) {
   bulletArray.forEach(function(bullet) {
     bullet.move();
-    var hit = bullet.detectCollisions(enemyTank);
+    var hit = detectCollisions(enemyTank,bullet.coordinates);
     if (hit || bullet.coordinates.x < 0 || bullet.coordinates.x > canvas.width || bullet.coordinates.y < 0 || bullet.coordinates.y > canvas.height) {
       bulletArray.splice(bulletArray.indexOf(bullet),1);
       bullet = null;

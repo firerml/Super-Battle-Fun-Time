@@ -92,13 +92,14 @@ Tank.prototype.slowDown = function() {
 };
 
 Tank.prototype.move = function() {
-  // var nextX = this.coordinates.x - Math.cos(this.angle)*this.velocity;
-  // var nextY = this.coordinates.y - Math.sin(this.angle)*this.velocity;
-  this.coordinates.x -= Math.cos(this.angle)*this.velocity;
-  this.coordinates.y -= Math.sin(this.angle)*this.velocity;
-  // if (nextX >= 0 && nextX <= canvas.width) this.coordinates.x = nextX;
-  // if (nextX <= ) this.coordinates.x = nextX;
-
+  var nextX = this.coordinates.x - Math.cos(this.angle)*this.velocity;
+  var nextY = this.coordinates.y - Math.sin(this.angle)*this.velocity;
+  var frontOfTankX = nextX - 15*Math.cos(this.angle);
+  var frontOfTankY = nextY - 15*Math.sin(this.angle);
+  if (!detectCollisions(enemyTank,{x: frontOfTankX,y: frontOfTankY})) {
+    if (nextX >= 15 && nextX <= canvas.width - 15) this.coordinates.x = nextX;
+    if (nextY >= 15 && nextY <= canvas.height - 15) this.coordinates.y = nextY;
+  }
 };
 
 Tank.prototype.getAttributes = function() {
