@@ -65,8 +65,6 @@ io.on('connection', function(client) {
 	});
 
 	client.on('commence game', function(data) {
-		console.log('Server got your commence game message!');
-		console.log(data['enemy']);
 		client.broadcast.to(data['enemy']).emit('commence game',data);
 		var newData = {player: data.enemy, playerColor: data.enemyColor, enemy: data.player, enemyColor: data.playerColor};
 		client.emit('commence game',newData);
