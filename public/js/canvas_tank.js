@@ -38,7 +38,7 @@ function updateCanvas(myTank,enemyTank) {
     myTank.gameOver = -1;
     dieCenter = myTank.coordinates;
     explosionColor = myTank.color.explosion;
-    socket.emit('iLost', {dieCenter: dieCenter,color: myTank.color});
+    socket.emit('iLost', {enemy: enemyTank.player, dieCenter: dieCenter, color: myTank.color});
     firstDeath = false;
   }
   if (!myTank.gameOver) {
@@ -48,8 +48,8 @@ function updateCanvas(myTank,enemyTank) {
   else {
     dieAnim(dieCenter,explosionColor);
   }
-  socket.emit('canvasUpdate', myTank.getAttributes());
-  socket.emit('updateBullets',bullets);
+  socket.emit('canvasUpdate', {enemy: enemyTank.player, attributes: myTank.getAttributes()});
+  socket.emit('updateBullets', {enemy: enemyTank.player, bullets: bullets});
 }
 
 function makeBullets(bulletArray) {
@@ -60,7 +60,7 @@ function makeBullets(bulletArray) {
       bulletArray.splice(bulletArray.indexOf(bullet),1);
       bullet = null;
       if (hit) {
-        socket.emit('takeDamage', 5);
+        socket.emit('takeDamage', {enemy: enemyTank.player, damage: 5});
       }
     }
   });

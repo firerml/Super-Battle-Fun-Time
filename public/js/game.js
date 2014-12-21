@@ -8,14 +8,16 @@ $(function() {
 
 
 	// Socket events
-	socket.on('canvasUpdate', receiveUpdate);
-
-	socket.on('updateBullets', function(bulletsArray) {
-		enemyBullets = bulletsArray;
+	socket.on('canvasUpdate', function(data) {
+		receiveUpdate(data.attributes);
 	});
 
-	socket.on('takeDamage', function(damage) {
-		myTank.health -= damage;
+	socket.on('updateBullets', function(data) {
+		enemyBullets = data.bullets;
+	});
+
+	socket.on('takeDamage', function(data) {
+		myTank.health -= data.damage;
 	});
 
 	socket.on('iLost', function(data) {

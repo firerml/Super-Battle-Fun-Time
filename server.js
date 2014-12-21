@@ -16,14 +16,28 @@ var numUsers = 0;
 io.on('connection', function(client) {
 	var addedUser = false;
 
-	// Updates canvus based on the enemy tank's properties
-	client.on('canvasUpdate', function(data) {
-		client.broadcast.emit('canvasUpdate', data);
+	client.on('commence game', function(data) {
+		client.broadcast.to(data['enemy']).emit('commence game',data);
+		var newData = {player: data.enemy, playerColor: data.enemyColor, enemy: data.player, enemyColor: data.playerColor};
+		client.emit('commence game',newData);
 	});
 
-	client.on('takeDamage', function(damage) {
-		client.broadcast.emit('takeDamage', damage);
+	client.on('canvasUpdate', function(data) {
+		client.broadcast.to(data.enemy).emit('canvasUpdate', data);
 	});
+
+	client.on('takeDamage', function(data) {
+		client.broadcast.to(data.enemy).emit('takeDamage', data);
+	});
+
+	client.on('iLost', function(data) {
+		client.broadcast.to(data.enemy).emit('iLost', data);
+	});
+
+	client.on('updateBullets', function(data) {
+		client.broadcast.to(data.enemy).emit('updateBullets',data);
+	});
+
 
 	client.on('get users', function(data) {
 		client.emit('get users', usernames)
@@ -32,10 +46,6 @@ io.on('connection', function(client) {
 	client.on('send message', function(data) {
 		client.broadcast.emit('send message', data);
 		client.emit('send message', data);
-	});
-
-	client.on('iLost', function(data) {
-		client.broadcast.emit('iLost', data);
 	});
 
 	// Listen for client emiting 'add user' event
@@ -59,16 +69,6 @@ io.on('connection', function(client) {
 	  client.broadcast.emit('send challenge', data);
 	});
 
-	// Listen for client emiting 'updateBullets' event
-	client.on('updateBullets', function(data) {
-		client.broadcast.emit('updateBullets',data);
-	});
-
-	client.on('commence game', function(data) {
-		client.broadcast.to(data['enemy']).emit('commence game',data);
-		var newData = {player: data.enemy, playerColor: data.enemyColor, enemy: data.player, enemyColor: data.playerColor};
-		client.emit('commence game',newData);
-	});
 
 	// When client's socket disconnects, remove user from
 	// array of usernames, and broadcast updated usernames
