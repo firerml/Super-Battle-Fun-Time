@@ -5,7 +5,6 @@ body {
   font-family: 'Play', sans-serif;
   background: black;
   color: lime;
-  text-align: center;
 }
 
 #instructions {
@@ -56,6 +55,10 @@ canvas {
   font-size: 50px;
 }
 
+#splashpage {
+  text-align: center;
+}
+
 #splashbutton {
   text-align: center;
   display: inline-block;
@@ -63,6 +66,7 @@ canvas {
   font-size: 25px;
   padding: 20px 40px 20px 40px;
   margin-bottom: 3%;
+  cursor:pointer;
 }
 
 /*
@@ -106,6 +110,7 @@ canvas {
 
 .chatcontainer {
 	height: 100%;
+  text-align: center;
 }
 
 .userscontainer {
@@ -183,11 +188,14 @@ canvas {
 .challenge-button {
 	border: 3px solid lime;
 	border-radius: 10px;
-	text-align: center;
 	font-size: 20px;
 	display: inline-block;
 	float: right;
-  margin: 20px 0px 10px 20px;
+  position: relative;
+  right: 4px;
+  top: 10px;
+  padding: 3px;
+  cursor: pointer;
 }
 
 .message {
@@ -199,7 +207,7 @@ canvas {
 .challenge-message {
   border: 3px solid lime;
   padding: 5px 10px 5px 10px;
-  cursor:
+  cursor: pointer;
 }
 
 .username {
