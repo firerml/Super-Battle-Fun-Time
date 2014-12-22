@@ -7,7 +7,7 @@ $(function() {
 	$('#splashbutton').on('click', function() {
 		$('#splashpage').hide();
 		socket.emit('get users', "getting users");
-		socket.emit('welcome message', "Welcome to the Super Battle Fun Time lobby chat. " + 
+		socket.emit('welcome message', "Welcome to the Super Battle Fun Time lobby chat. " +
 			"Here you can see other users connected, send messages to each other, and challenge them to a battle!" +
 			" Have fun!");
 		$('#splashpage').hide();
@@ -68,6 +68,11 @@ $(function() {
 		socket.emit('commence game',{enemy: enId, enemyColor: greens, player: socket.io.engine.id, playerColor: purples});
 	});
 
+	// Sends a rematch message to the enemy when the rematch button is clicked
+	$('body').on('click', '#rematch', function(event) {
+		socket.emit('rematch', {enemy: enemyid, player: username});
+	});
+
 	// Moves turret based on mouse movement
 	$('canvas').mousemove(function(event) {
 		if (!myTank.gameOver) {
@@ -95,5 +100,4 @@ $(function() {
       if (event.keyCode === 40 || event.keyCode === 83) myTank.downPressed = false;
     }
   });
-
 });

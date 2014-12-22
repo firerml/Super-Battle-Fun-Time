@@ -16,6 +16,7 @@ var numUsers = 0;
 io.on('connection', function(client) {
 	var addedUser = false;
 
+	// Game
 	client.on('commence game', function(data) {
 		client.broadcast.to(data['enemy']).emit('commence game',data);
 		var newData = {player: data.enemy, playerColor: data.enemyColor, enemy: data.player, enemyColor: data.playerColor};
@@ -38,7 +39,11 @@ io.on('connection', function(client) {
 		client.broadcast.to(data.enemy).emit('updateBullets',data);
 	});
 
+	client.on('rematch', function(data) {
+		client.broadcast.to(data.enemy).emit('rematch',data);
+	});
 
+	// Lobby
 	client.on('get users', function(data) {
 		client.emit('get users', usernames)
 	});

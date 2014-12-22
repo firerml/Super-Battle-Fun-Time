@@ -1,8 +1,8 @@
 socket = io.connect();
 
-////////////////////////////
-// IN GAME SOCKET EVENTS ///
-////////////////////////////
+///////////////////////////
+// IN GAME SOCKET EVENTS //
+///////////////////////////
 
 // Updates the canvas based on information received from enemy player
 socket.on('canvasUpdate', function(data) {
@@ -26,8 +26,22 @@ socket.on('iLost', function(data) {
 	explosionColor = data.color.explosion;
 });
 
+// Adds a message to your end div
+socket.on('rematch', function(data) {
+	if (!($('#rematch-message').length)) {
+		var rematchDiv = $('<div>').attr('id','rematch-notification');
+		var rematchMessage = $('<div>').attr('id','rematch-message').text(data.player + ' demands a rematch!');
+		var accept = $('<div>').attr('id','accept').text('Accept');
+		var deny = $('<div>').attr('id','deny').text('Deny');
+		$(rematchDiv).append(rematchMessage).append(accept).append(deny);
+		$('#end').prepend(rematchDiv);
+		$('#rematch').remove();
+		$('#return-to-lobby').remove();
+		$('#end-message').remove();
+	}
+});
 
-//////////////////////////// 
+////////////////////////////
 // Chatroom Socket Events //
 ////////////////////////////
 

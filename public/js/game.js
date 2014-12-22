@@ -27,8 +27,12 @@ function triangleArea(a,b,c) {
 // Generates a Win/Lose message on your screen
 function endMessage() {
 	var message;
-	if (myTank.gameOver > 0) message = 'You win!'; 
+	if (myTank.gameOver > 0) message = 'You win!';
 	else if (myTank.gameOver < 0) message = 'You lose!';
-	endMessage = $('<div>').attr('id','end-message').text(message);
-	$('body').append(endMessage);
+	var endDiv = $('<div>').attr('id','end');
+	var endMessage = $('<div>').attr('id','end-message').text(message);
+	var rematch = $('<div>').attr('id','rematch').text('Request A Rematch');
+	var returnToLobby = $('<div>').attr('id','return-to-lobby').text('Return To Lobby')
+	$(endDiv).append(endMessage).append(rematch).append(returnToLobby);
+	$('body').append(endDiv);
 }
