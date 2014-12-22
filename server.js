@@ -52,7 +52,6 @@ io.on('connection', function(client) {
 		client.emit('welcome message', data);
 	});
 
-	// Listen for client emiting 'add user' event
 	client.on('add user', function(username) {
 		// add the clients username to the global list of users
 		var userObj = {};
@@ -61,9 +60,7 @@ io.on('connection', function(client) {
 		usernames.push(userObj)
 		++numUsers;
 		addedUser = true;
-		// echo globally that a user has connected
 		client.broadcast.emit('user joined', usernames);
-		// echo object back to client
 		client.emit('user joined', usernames);
 	});
 

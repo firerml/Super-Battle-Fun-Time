@@ -6,7 +6,7 @@ socket = io.connect();
 
 // Updates the canvas based on information received from enemy player
 socket.on('canvasUpdate', function(data) {
-	receiveUpdate(data.attributes);
+	receiveUpdate(enemyTank, data.attributes);
 });
 
 // Updates the bullets based on information received from enemy player
