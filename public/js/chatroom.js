@@ -101,3 +101,9 @@ socket.on('send challenge', function(data) {
 socket.on('commence game', function(players) {
 	startGame(players.enemy, players.enemyColor, players.player, players.playerColor);
 });
+
+socket.on('welcome message', function(data) {
+	var chatmessages = $('.chatmessagescontainer');
+	var message = $('<p>').addClass('message').attr('id', 'welcome-message').text(data);
+	chatmessages.append(message);
+});

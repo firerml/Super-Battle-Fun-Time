@@ -48,6 +48,10 @@ io.on('connection', function(client) {
 		client.emit('send message', data);
 	});
 
+	client.on('welcome message', function(data) {
+		client.emit('welcome message', data);
+	});
+
 	// Listen for client emiting 'add user' event
 	client.on('add user', function(username) {
 		// add the clients username to the global list of users
