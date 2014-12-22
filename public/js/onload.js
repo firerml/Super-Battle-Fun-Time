@@ -56,8 +56,13 @@ $(function() {
 
 	// Sends a challenge when you press the challenge button
 	$('body').on('click', '.challenge-button', function() {
+		var messageContainer = $('.chatmessagescontainer');
+		var sentChallenge = $('<p>').addClass('message').addClass('challenge-message');
+		var challengee = $(this).parent().find('p').text();
+		sentChallenge.text('You have invited ' + challengee + ' to a game. Awaiting response...');
+		messageContainer.append(sentChallenge);
 	  enemyid = $(this).parent().attr('socketid');
-	  socket.emit('send challenge', {enemy: enemyid, player: socket.io.engine.id});
+	  socket.emit('send challenge', {enemy: enemyid, player: socket.io.engine.id, name: username});
 	});
 
 	// Starts a game when you accept the challenge by clicking on the challenge message
