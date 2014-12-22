@@ -134,6 +134,7 @@ canvas {
 	background: rgba(0,0,0,0.5);
 	border: 3px solid white;
 	overflow: auto;
+	overflow-x: hidden;
 }
 
 .textinputcontainer {
