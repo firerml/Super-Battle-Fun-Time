@@ -6,7 +6,10 @@ var dieCenter;
 var explosionColor;
 var timer;
 var deathClockSet = false;
+var myTank;
+var enemyTank;
 
+// Assigns a tank to enemy and player, and starts the game
 function startGame(myName,myColor,enemyName,enemyColor) {
   $('canvas').show();
   $('#main-title').hide();
@@ -29,10 +32,15 @@ function startGame(myName,myColor,enemyName,enemyColor) {
   timer = setInterval(function() { updateCanvas(myTank,enemyTank) },15);
 }
 
+// Re-draws the game based on updated info
 function updateCanvas(myTank,enemyTank) {
   refreshCanvas();
-  draw(enemyTank);
-  draw(myTank);
+  drawTank(enemyTank);
+  drawTurret(enemyTank);
+  drawTank(myTank);
+  drawTurret(myTank);
+  if (bullets.length > 0) drawBullets(bullets);
+  if (enemyBullets.length > 0) drawBullets(enemyBullets);
   drawBullets(enemyBullets);
   if (myTank.health <= 0 && firstDeath) {
     myTank.gameOver = -1;
@@ -43,7 +51,7 @@ function updateCanvas(myTank,enemyTank) {
   }
   if (!myTank.gameOver) {
     myTank.updateTank();
-    makeBullets(bullets);
+    updatePlayerBullets(bullets);
   }
   else {
     dieAnim(dieCenter,explosionColor);
@@ -52,7 +60,8 @@ function updateCanvas(myTank,enemyTank) {
   socket.emit('updateBullets', {enemy: enemyTank.player, bullets: bullets});
 }
 
-function makeBullets(bulletArray) {
+// updates all the bullets are fired by the player
+function updatePlayerBullets(bulletArray) {
   bulletArray.forEach(function(bullet) {
     bullet.move();
     var hit = detectCollisions(enemyTank,bullet.coordinates);
@@ -66,13 +75,7 @@ function makeBullets(bulletArray) {
   });
 }
 
-function draw(tank) {
-  drawTank(tank);
-  drawTurret(tank);
-  if (bullets.length > 0) drawBullets(bullets);
-  if (enemyBullets.length > 0) drawBullets(enemyBullets);
-}
-
+// Draws the tank
 function drawTank(tank) {
   ctx.save();
   ctx.translate(tank.coordinates.x,tank.coordinates.y);
@@ -82,12 +85,15 @@ function drawTank(tank) {
   var fullWidth = fillPercent*tank.dimensions.width;
   ctx.fillStyle = tank.color.main;
   ctx.strokeStyle = tank.color.main;
+  // Draws an empty rectangle whose height indicates missing health
   ctx.strokeRect(tank.dimensions.width*(-0.5), tank.dimensions.height*(-0.5), emptyWidth, tank.dimensions.height);
+  // Draws a full rectangle whose height indicates remaining health
   ctx.fillRect(tank.dimensions.width*(-0.5) + emptyWidth, tank.dimensions.height*(-0.5), fullWidth, tank.dimensions.height);
   drawArrow(tank);
   ctx.restore();
 }
 
+// Draws an arrow on the tank indicating the front of the tank
 function drawArrow(tank) {
   ctx.beginPath();
   ctx.translate(0,0);
@@ -99,6 +105,7 @@ function drawArrow(tank) {
   ctx.fill();
 }
 
+// Draws the turret on the tank
 function drawTurret(tank) {
   ctx.save();
   ctx.translate(tank.coordinates.x,tank.coordinates.y);
@@ -108,6 +115,7 @@ function drawTurret(tank) {
   ctx.restore();
 }
 
+// Draws bullets
 function drawBullets(bulletArray) {
   bulletArray.forEach(function(bullet) {
     ctx.beginPath();
@@ -118,6 +126,7 @@ function drawBullets(bulletArray) {
   });
 }
 
+// Clears the canvas and re-draws the background
 function refreshCanvas() {
   ctx.save();
   ctx.fillStyle = 'black';
@@ -125,6 +134,7 @@ function refreshCanvas() {
   ctx.restore();
 }
 
+// Creates the explosion triggered upon death
 function dieAnim(dieCenter,explosionColor) {
   if (!deathClockSet) {
     deathClockSet = true;

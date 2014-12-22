@@ -9,37 +9,11 @@
 		<script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 		<script type="text/javascript" src="js/socket.js"></script>
-		<script type="text/javascript" src="js/canvas_tank.js"></script>
+		<script type="text/javascript" src="js/canvas.js"></script>
 		<script type="text/javascript" src="js/bullet.js"></script>
 		<script type="text/javascript" src="js/tank.js"></script>
 		<script type="text/javascript" src="js/game.js"></script>
-		<script type="text/javascript" src="js/chatroom.js"></script>
-		<script>
-
-			// socket = io.connect();
-
-			socket.emit('get users', "getting users");
-			socket.emit('welcome message', "Welcome to the Super Battle Fun Time lobby chat. " + 
-				"Here you can see other users connected, send messages to each other, and challenge them to a battle!" +
-				" Have fun!");
-
-		  $(function() {
-				// Make lobby appear
-				$('#splashbutton').on('click', connectToLobby);
-
-			});
-			// Establishes socket connection and loads chat lobby
-			function connectToLobby() {
-				$('#splashpage').hide();
-				// AJAX request for socket.js to open a socket connection
-				// $.get('/socket').done(function(data) {
-				var scriptElement = document.createElement('script');
-				scriptElement.src = '/js/socket.js';
-				$('#splashpage').hide();
-				$('#lobby').show();
-				$('#loginpage').show();
-			}
-		</script>
+		<script type="text/javascript" src="js/onload.js"></script>
 	</head>
 
 	<body>

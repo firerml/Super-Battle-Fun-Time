@@ -1,15 +1,17 @@
 var Tank = function(nickname, color) {
   this.player = nickname;
+  this.color = color;
+
   this.coordinates = { x: 400 * Math.random() + 100, y: 400 * Math.random() + 100 };
   this.dimensions = {width: 30, height: 30};
+  
   this.velocity = 0;
-  this.angle = (90 * Math.PI/180);
   this.maxForwardVelocity = 3;
   this.maxBackwardsVelocity = -0.8;
   this.forwardAccel = 0.04;
   this.backwardsAccel = 0.08;
   this.decel = 0.03;
-  this.color = color;
+  this.angle = (90 * Math.PI/180);
   this.turretAngle = 0;
 
   this.upPressed = false;
@@ -18,26 +20,7 @@ var Tank = function(nickname, color) {
   this.leftPressed = false;
 
   this.health = 100;
-  this.gameOver = 0;
-
-  var self = this;
-  $('body').on('keydown', function(event) {
-    // event.preventDefault();
-    if (!self.gameOver) {
-      if (event.keyCode === 38 || event.keyCode === 87) self.upPressed = true;
-      if (event.keyCode === 39 || event.keyCode === 68) self.rightPressed = true;
-      if (event.keyCode === 37 || event.keyCode === 65) self.leftPressed = true;
-      if (event.keyCode === 40 || event.keyCode === 83) self.downPressed = true;
-    }
-  });
-  $('body').on('keyup', function(event) {
-    if (!self.gameOver) {
-      if (event.keyCode === 38 || event.keyCode === 87) self.upPressed = false;
-      if (event.keyCode === 39 || event.keyCode === 68) self.rightPressed = false;
-      if (event.keyCode === 37 || event.keyCode === 65) self.leftPressed = false;
-      if (event.keyCode === 40 || event.keyCode === 83) self.downPressed = false;
-    }
-  });
+  this.gameOver = 0;  
 };
 
 Tank.prototype.updateTank = function() {
@@ -164,5 +147,3 @@ Tank.prototype.getCorners = function() {
         y: this.coordinates.y + hyp*Math.sin(rotAngle) };
   return {tL: tL, tR: tR, bL: bL, bR: bR};
 };
-
-//module.exports = new Tank('Mike')
