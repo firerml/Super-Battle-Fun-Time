@@ -58,7 +58,7 @@ io.on('connection', function(client) {
 		userObj['name'] = username;
 		userObj['id'] = client.id;
 		usernames.push(userObj)
-		++numUsers;
+		numUsers++;
 		addedUser = true;
 		client.broadcast.emit('user joined', usernames);
 		client.emit('user joined', usernames);
@@ -78,7 +78,7 @@ io.on('connection', function(client) {
 			usernames.forEach(function(object) {
 				if(object['id'] == client.id) {
 					usernames.splice(usernames.indexOf(object),1);
-					--numUsers;
+					numUsers--;
 				}
 			})
 		}

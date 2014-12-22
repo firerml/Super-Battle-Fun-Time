@@ -8,6 +8,8 @@ var timer;
 var deathClockSet = false;
 var myTank;
 var enemyTank;
+var bullets;
+var enemyBullets;
 
 // Assigns a tank to enemy and player, and starts the game
 function startGame(myName,myColor,enemyName,enemyColor) {
