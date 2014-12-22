@@ -22,8 +22,6 @@
     "jasmine-jquery": "^2.0.5",
     "jasmine-node": "^1.14.5",
     "jquery": "^2.1.1",
-    "redis": "^0.12.1",
-    "socket.io": "^1.2.1",
-    "underscore": "^1.7.0"
+    "socket.io": "^1.2.1"
   }
 }

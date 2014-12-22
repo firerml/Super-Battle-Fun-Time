@@ -94,8 +94,9 @@ Tank.prototype.slowDown = function() {
 Tank.prototype.move = function() {
   var nextX = this.coordinates.x - Math.cos(this.angle)*this.velocity;
   var nextY = this.coordinates.y - Math.sin(this.angle)*this.velocity;
-  var frontOfTankX = nextX - 15*Math.cos(this.angle);
-  var frontOfTankY = nextY - 15*Math.sin(this.angle);
+  // For collisions
+  var frontOfTankX = nextX - this.dimensions.width/2 * Math.cos(this.angle);
+  var frontOfTankY = nextY - this.dimensions.height/2 * Math.sin(this.angle);
   if (!detectCollisions(enemyTank,{x: frontOfTankX,y: frontOfTankY})) {
     if (nextX >= 15 && nextX <= canvas.width - 15) this.coordinates.x = nextX;
     if (nextY >= 15 && nextY <= canvas.height - 15) this.coordinates.y = nextY;
