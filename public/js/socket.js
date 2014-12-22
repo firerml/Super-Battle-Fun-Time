@@ -77,6 +77,7 @@ socket.on('send message', function(data) {
 	var userTag = $('<span>').addClass('username').text(data.name + ": ");
 	messageTag.prepend(userTag);
 	chatmessages.append(messageTag);
+	chatmessages[0].scrollTop = chatmessages[0].scrollHeight;
 });
 
 // Receiving a challenge
