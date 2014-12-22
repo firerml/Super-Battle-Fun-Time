@@ -53,57 +53,16 @@ $(function() {
 	});
 });
 
-// Socket Events
-socket.on('user joined', function(data) {
-	var usersDiv = $('.current-users');
-	usersDiv.empty();
-	data.forEach(function(object) {
-		var user = $('<div>').addClass('username-div');
-		user.append($('<p>').addClass('username-text').text(object['name']));
-		user.attr('socketID', object['id']);
-		usersDiv.append(user);
-		if (object.name !== username) {
-			user.append($('<div>').addClass('challenge-button').text('Challenge!'));
-		}
-	});
-});
+// Establishes socket connection and loads chat lobby
+function connectToLobby() {
+	$('#splashpage').hide();
+	socket.emit('get users', "getting users");
+	socket.emit('welcome message', "Welcome to the Super Battle Fun Time lobby chat. " + 
+		"Here you can see other users connected, send messages to each other, and challenge them to a battle!" +
+		" Have fun!");
+	$('#splashpage').hide();
+	$('#lobby').show();
+	$('#loginpage').show();
+}
 
-socket.on('get users', function(data) {
-	var usersDiv = $('.current-users');
-	usersDiv.empty();
-	if (data.length > 0) {
-		data.forEach(function(object) {
-			var user = $('<div>').addClass('username-div');
-			user.append($('<p>').addClass('username-text').text(object['name']));
-			user.attr('socketID', object['id']);
-			usersDiv.append(user);
-			if (object.name !== username) {
-				user.append($('<div>').addClass('challenge-button').text('Challenge!'));
-			}
-		});
-	}
-});
 
-socket.on('send message', function(data) {
-	var chatmessages = $('.chatmessagescontainer');
-	var messageTag = $('<p>').addClass('message').text(data.message);
-	var userTag = $('<span>').addClass('username').text(data.name + ": ");
-	messageTag.prepend(userTag);
-	chatmessages.append(messageTag);
-});
-
-// Receiving a challenge
-socket.on('send challenge', function(data) {
-	var message = $('<p>').addClass('message').addClass('challenge-message').text(data.player + ' has challenged you! Click here to accept.').attr('invitation-id',data.player);
-	$('.chatmessagescontainer').append(message);
-});
-
-socket.on('commence game', function(players) {
-	startGame(players.enemy, players.enemyColor, players.player, players.playerColor);
-});
-
-socket.on('welcome message', function(data) {
-	var chatmessages = $('.chatmessagescontainer');
-	var message = $('<p>').addClass('message').attr('id', 'welcome-message').text(data);
-	chatmessages.append(message);
-});

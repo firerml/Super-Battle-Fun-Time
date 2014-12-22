@@ -18,27 +18,13 @@
 
 			// socket = io.connect();
 
-			socket.emit('get users', "getting users");
-			socket.emit('welcome message', "Welcome to the Super Battle Fun Time lobby chat. " + 
-				"Here you can see other users connected, send messages to each other, and challenge them to a battle!" +
-				" Have fun!");
+
 
 		  $(function() {
 				// Make lobby appear
 				$('#splashbutton').on('click', connectToLobby);
 
 			});
-			// Establishes socket connection and loads chat lobby
-			function connectToLobby() {
-				$('#splashpage').hide();
-				// AJAX request for socket.js to open a socket connection
-				// $.get('/socket').done(function(data) {
-				var scriptElement = document.createElement('script');
-				scriptElement.src = '/js/socket.js';
-				$('#splashpage').hide();
-				$('#lobby').show();
-				$('#loginpage').show();
-			}
 		</script>
 	</head>
 
