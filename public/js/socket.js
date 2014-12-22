@@ -1,5 +1,31 @@
 socket = io.connect();
 
+////////////////////////////
+// IN GAME SOCKET EVENTS ///
+////////////////////////////
+
+// Updates the canvas based on information received from enemy player
+socket.on('canvasUpdate', function(data) {
+	receiveUpdate(data.attributes);
+});
+
+// Updates the bullets based on information received from enemy player
+socket.on('updateBullets', function(data) {
+	enemyBullets = data.bullets;
+});
+
+// Reduces health when enemy sends info that it hit you
+socket.on('takeDamage', function(data) {
+	myTank.health -= data.damage;
+});
+
+// When the enemy's health hits zero you win
+socket.on('iLost', function(data) {
+	myTank.gameOver = 1;
+	dieCenter = data.dieCenter;
+	explosionColor = data.color.explosion;
+});
+
 
 //////////////////////////// 
 // Chatroom Socket Events //
