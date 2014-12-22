@@ -1,7 +1,7 @@
-BattleTanks
-===========
+Super Battle Fun Time
+=====================
 
-A BattleTanks game using Canvas and Socket.io.
+A tank fighting game using Canvas and Socket.io.
 
 Created by David Brodsky and Mike Firer for General Assembly's Web Development Immersive
 https://github.com/DBrodsky90
