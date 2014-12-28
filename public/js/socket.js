@@ -16,8 +16,7 @@ socket.on('updateBullets', function(data) {
 
 // Reduces health when enemy sends info that it hit you
 socket.on('takeDamage', function(data) {
-	// myTank.health -= data.damage;
-	myTank.health -= 200;
+	myTank.health -= data.damage;
 });
 
 // When the enemy's health hits zero you win
