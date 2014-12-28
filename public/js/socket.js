@@ -121,6 +121,7 @@ socket.on('send challenge', function(data) {
 
 // Starts a game between two people
 socket.on('commence game', function(players) {
+	$('.challenge-message').remove();
 	$('canvas').show();
 	$('#main-title').hide();
 	$('#splashpage').hide();
