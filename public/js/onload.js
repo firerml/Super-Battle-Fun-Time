@@ -7,8 +7,8 @@ $(function() {
 	$('#splashbutton').on('click', function() {
 		$('#splashpage').hide();
 		socket.emit('get users', "getting users");
-		socket.emit('welcome message', "Welcome to the Super Battle Fun Time lobby chat. " + 
-			"Here you can see other users connected, send messages to each other, and challenge them to a battle!" +
+		socket.emit('welcome message', "Welcome to Super Battle Fun Time. " + 
+			"Here you can see other users, chat with each other, and challenge them to a battle!" +
 			" Have fun!");
 		$('#splashpage').hide();
 		$('#lobby').show();

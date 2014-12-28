@@ -173,32 +173,38 @@ canvas {
 }
 
 .username-div {
+	height: 55px;
 	font-size: 30px;
 	border: 3px solid lime;
 	margin-right: 10px;
 	margin-left: 5px;
 	margin-top: 10px;
 	letter-spacing: 5px;
+	display: flex;
+	align-items: center;
 }
 
 .username-text {
+	position: static;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	display: inline-block;
+	width: 65%;
+	letter-spacing: 2px;
+	float: left;
 }
 
 .challenge-button {
+	cursor: pointer;
 	color: #D711ED;
 	border: 3px solid #D711ED;
+}
+
+.user-button {
 	border-radius: 10px;
 	font-size: 20px;
-	display: inline-block;
-	float: right;
-  position: relative;
-  right: 4px;
-  top: 10px;
-  padding: 3px;
-  cursor: pointer;
+	padding: 4px;
+	letter-spacing: 0;
 }
 
 .message {
@@ -234,4 +240,20 @@ canvas {
 	width: 100%;
 	margin-left: 0;
 	padding-left: 10px;
+}
+
+.current-users {
+	position: static;
+	display: inline-block;
+	width: 100%;
+}
+
+.current-status {
+	position: static;
+	display: inline-block;
+	width: 30%;
+	float: left;
+	text-align: center;
+	top: 0;
+	bottom: 0;
 }

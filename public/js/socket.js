@@ -49,7 +49,7 @@ socket.on('get users', function(data) {
 			user.attr('socketID', object['id']);
 			usersDiv.append(user);
 			if (object.name !== username) {
-				user.append($('<div>').addClass('challenge-button').text('Challenge!'));
+				user.append($('<div>').addClass('challenge-button user-button').text('Challenge!'));
 			}
 		});
 	}
@@ -65,7 +65,7 @@ socket.on('user joined', function(data) {
 		user.attr('socketID', object['id']);
 		usersDiv.append(user);
 		if (object.name !== username) {
-			user.append($('<div>').addClass('challenge-button').text('Challenge!'));
+			user.append($('<div>').addClass('challenge-button user-button').text('Challenge!'));
 		}
 	});
 });
