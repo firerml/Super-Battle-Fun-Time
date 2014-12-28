@@ -240,6 +240,7 @@ canvas {
 	width: 100%;
 	margin-left: 0;
 	padding-left: 10px;
+	margin-bottom: 10px;
 }
 
 .current-users {
