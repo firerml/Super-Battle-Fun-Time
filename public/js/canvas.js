@@ -1,11 +1,11 @@
 var ctx;
-var firstDeath = true;
-var innerRadius = 5;
-var outerRadius = 10;
+var firstDeath;
+var innerRadius;
+var outerRadius;
 var dieCenter;
 var explosionColor;
 var timer;
-var deathClockSet = false;
+var deathClockSet;
 var myTank;
 var enemyTank;
 var bullets;
@@ -13,24 +13,19 @@ var enemyBullets;
 
 // Assigns a tank to enemy and player, and starts the game
 function startGame(myName,myColor,enemyName,enemyColor) {
-  $('canvas').show();
-  $('#main-title').hide();
-  $('#splashpage').hide();
-  $('#lobby').hide();
+  firstDeath = true;
+  innerRadius = 5;
+  outerRadius = 10;
+  deathClockSet = false;
+  bullets = [];
+  enemyBullets = [];
+
   ctx = $('#canvas')[0].getContext('2d');
   ctx.fillStyle = 'lavender';
   ctx.fillRect(0,0,canvas.width,canvas.height);
   myTank = new Tank(myName,myColor);
   enemyTank = new Tank(enemyName,enemyColor);
 
-  $('canvas').on('click', function() {
-    if (!myTank.gameOver) {
-      myTank.createBullet()
-    }
-  });
-
-  bullets = [];
-  enemyBullets = [];
   timer = setInterval(function() { updateCanvas(myTank,enemyTank) },15);
 }
 
@@ -41,9 +36,8 @@ function updateCanvas(myTank,enemyTank) {
   drawTurret(enemyTank);
   drawTank(myTank);
   drawTurret(myTank);
-  if (bullets.length > 0) drawBullets(bullets);
-  if (enemyBullets.length > 0) drawBullets(enemyBullets);
-  drawBullets(enemyBullets);
+  if (bullets.length > 0) drawBullets(bullets, myTank.color.main);
+  if (enemyBullets.length > 0) drawBullets(enemyBullets, enemyTank.color.main);
   if (myTank.health <= 0 && firstDeath) {
     myTank.gameOver = -1;
     dieCenter = myTank.coordinates;
@@ -118,12 +112,12 @@ function drawTurret(tank) {
 }
 
 // Draws bullets
-function drawBullets(bulletArray) {
+function drawBullets(bulletArray,color) {
   bulletArray.forEach(function(bullet) {
     ctx.beginPath();
     ctx.arc(bullet.coordinates.x, bullet.coordinates.y, 5, 0, 2*Math.PI, false);
     ctx.closePath();
-    ctx.fillStyle = 'lime';
+    ctx.fillStyle = color;
     ctx.fill();
   });
 }

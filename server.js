@@ -16,8 +16,9 @@ var numUsers = 0;
 io.on('connection', function(client) {
 	var addedUser = false;
 
+	// Game
 	client.on('commence game', function(data) {
-		client.broadcast.to(data['enemy']).emit('commence game',data);
+		client.broadcast.to(data.enemy).emit('commence game',data);
 		var newData = {player: data.enemy, playerColor: data.enemyColor, enemy: data.player, enemyColor: data.playerColor};
 		client.emit('commence game',newData);
 	});
@@ -35,10 +36,18 @@ io.on('connection', function(client) {
 	});
 
 	client.on('updateBullets', function(data) {
-		client.broadcast.to(data.enemy).emit('updateBullets',data);
+		client.broadcast.to(data.enemy).emit('updateBullets', data);
 	});
 
+	client.on('rematch', function(data) {
+		client.broadcast.to(data.enemy).emit('rematch', data);
+	});
 
+	client.on('iLeft', function(data) {
+		client.broadcast.to(data.enemy).emit('iLeft', data);
+	});
+
+	// Lobby
 	client.on('get users', function(data) {
 		client.emit('get users', usernames)
 	});
