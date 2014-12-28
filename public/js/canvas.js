@@ -34,9 +34,8 @@ function updateCanvas(myTank,enemyTank) {
   drawTurret(enemyTank);
   drawTank(myTank);
   drawTurret(myTank);
-  if (bullets.length > 0) drawBullets(bullets);
-  if (enemyBullets.length > 0) drawBullets(enemyBullets);
-  drawBullets(enemyBullets);
+  if (bullets.length > 0) drawBullets(bullets, myTank.color.main);
+  if (enemyBullets.length > 0) drawBullets(enemyBullets, enemyTank.color.main);
   if (myTank.health <= 0 && firstDeath) {
     myTank.gameOver = -1;
     dieCenter = myTank.coordinates;
@@ -111,12 +110,12 @@ function drawTurret(tank) {
 }
 
 // Draws bullets
-function drawBullets(bulletArray) {
+function drawBullets(bulletArray,color) {
   bulletArray.forEach(function(bullet) {
     ctx.beginPath();
     ctx.arc(bullet.coordinates.x, bullet.coordinates.y, 5, 0, 2*Math.PI, false);
     ctx.closePath();
-    ctx.fillStyle = 'lime';
+    ctx.fillStyle = color;
     ctx.fill();
   });
 }

@@ -217,8 +217,8 @@ canvas {
 
 #end {
   position: absolute;
-  top: 50%;
-  left: 35%;
+  top: 30%;
+  left: 30%;
   font-size: 50px;
   text-align: center;
   padding: 6px;
@@ -240,6 +240,7 @@ canvas {
 }
 
 #rematch-message {
+  padding: 5px;
   background: black;
   border: solid 5px lime;
 }
@@ -253,8 +254,8 @@ canvas {
 }
 
 #accept {
-  color: green;
-  border: solid 5px green;
+  color: #D711ED;
+  border: solid 5px #D711ED;
 }
 
 #deny {

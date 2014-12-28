@@ -80,6 +80,18 @@ $(function() {
 		socket.emit('commence game',{enemy: enemyTank.player, enemyColor: greens, player: socket.io.engine.id, playerColor: purples});
 	});
 
+	$('body').on('click', '#deny', function(event) {
+		// message should say "Declined! Returning to lobby."
+		returnToLobby();
+	});
+	$('body').on('click', '#return-to-lobby', returnToLobby);
+
+	function returnToLobby() {
+		$('#end').remove();
+		$('canvas').hide();
+		$('#lobby').show();
+	}
+
 	// Moves turret based on mouse movement
 	$('canvas').mousemove(function(event) {
 		if (!myTank.gameOver) {

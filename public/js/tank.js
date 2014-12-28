@@ -4,7 +4,7 @@ var Tank = function(nickname, color) {
 
   this.coordinates = { x: 400 * Math.random() + 100, y: 400 * Math.random() + 100 };
   this.dimensions = {width: 30, height: 30};
-  
+
   this.velocity = 0;
   this.maxForwardVelocity = 3;
   this.maxBackwardsVelocity = -0.8;
@@ -20,14 +20,14 @@ var Tank = function(nickname, color) {
   this.leftPressed = false;
 
   this.health = 100;
-  this.gameOver = 0;  
+  this.gameOver = 0;
 };
 
 Tank.prototype.updateTank = function() {
   if (this.downPressed) {
     this.moveBackwards();
   }
-  // you shouldn't be able to press up and down at the same time! Down overrides up.
+  // You shouldn't be able to press up and down at the same time! Down overrides up.
   else if (this.upPressed) {
     this.moveForward();
   }
