@@ -71,13 +71,22 @@ socket.on('welcome message', function(data) {
 });
 
 // Gets users that are connected when you first join
-socket.on('get users', function(data) {
+socket.on('get users', addUser);
+
+// Updates users when a user joins
+socket.on('user joined', addUser);
+
+function addUser(data) {
 	var usersDiv = $('.current-users');
 	usersDiv.empty();
 	if (data.length > 0) {
 		data.forEach(function(object) {
 			var user = $('<div>').addClass('username-div');
-			user.append($('<p>').addClass('username-text').text(object['name']));
+			var usernamePar = $('<p>').addClass('username-text').text(object['name']);
+			if (object.name.length > 10) {
+				usernamePar.css('font-size','20px').css('line-height','.75');
+			}
+			user.append(usernamePar);
 			user.attr('socketID', object['id']);
 			usersDiv.append(user);
 			if (object.name !== username) {
@@ -85,22 +94,7 @@ socket.on('get users', function(data) {
 			}
 		});
 	}
-});
-
-// Updates users when a user joins
-socket.on('user joined', function(data) {
-	var usersDiv = $('.current-users');
-	usersDiv.empty();
-	data.forEach(function(object) {
-		var user = $('<div>').addClass('username-div');
-		user.append($('<p>').addClass('username-text').text(object['name']));
-		user.attr('socketID', object['id']);
-		usersDiv.append(user);
-		if (object.name !== username) {
-			user.append($('<div>').addClass('challenge-button user-button').text('Challenge!'));
-		}
-	});
-});
+}
 
 // Receives a message and displays it
 socket.on('send message', function(data) {

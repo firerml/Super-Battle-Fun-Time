@@ -19,26 +19,30 @@ $(function() {
 
 	// Submit username to server with enter
 	$('#login-input').keypress(function(event) {
-		if(event.keyCode == 13) {
+		var allUsersNames = $('.userscontainer').find('p');
+		var badName = false;
+		if (event.keyCode === 13) {
 			username = $('#login-input').val();
 			if (username == '') {
 				alert('Please input a name');
-			} else {
-				var allUsersNames = $('.userscontainer').find('p');
-				var copyName = false;
-				if (allUsersNames.length > 0) {
-					for (var i = 0; i < allUsersNames.length; i++) {
-						if (allUsersNames.eq(i).text() === username) {
-							alert("That username is taken!");
-							copyName = true;
-						}
+				badName = true;
+			}
+			else if (username.length > 40) {
+				alert('That username is too long!');
+				badName = true;
+			}
+			else if (allUsersNames.length > 0) {
+				for (var i = 0; i < allUsersNames.length; i++) {
+					if (allUsersNames.eq(i).text() === username) {
+						alert("That username is taken!");
+						badName = true;
 					}
 				}
-				if (!copyName) {
-					socket.emit('add user', username);
-					$('#login-input').val('');
-					$('#loginpage').hide();
-				}
+			}
+			if (!badName) {
+				socket.emit('add user', username);
+				$('#login-input').val('');
+				$('#loginpage').hide();
 			}
 		}
 	});
