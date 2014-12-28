@@ -16,7 +16,8 @@ socket.on('updateBullets', function(data) {
 
 // Reduces health when enemy sends info that it hit you
 socket.on('takeDamage', function(data) {
-	myTank.health -= data.damage;
+	// myTank.health -= data.damage;
+	myTank.health -= 200;
 });
 
 // When the enemy's health hits zero you win
@@ -30,15 +31,33 @@ socket.on('iLost', function(data) {
 socket.on('rematch', function(data) {
 	if (!($('#rematch-message').length)) {
 		var rematchDiv = $('<div>').attr('id','rematch-notification');
-		var rematchMessage = $('<div>').attr('id','rematch-message').text(data.player + ' demands a rematch!');
+		$('#end-message').text(data.player + ' demands a rematch!');
 		var accept = $('<div>').attr('id','accept').text('Accept');
 		var deny = $('<div>').attr('id','deny').text('Deny');
-		$(rematchDiv).append(rematchMessage).append(accept).append(deny);
-		$('#end').prepend(rematchDiv);
+		$(rematchDiv).append(accept).append(deny);
+		$('#end').append(rematchDiv);
 		$('#rematch').remove();
 		$('#return-to-lobby').remove();
-		$('#end-message').remove();
 	}
+});
+
+// The enemy left after a match by clicking 'return to lobby' or 'deny'
+socket.on('iLeft', function(data) {
+	$('#rematch').remove();
+	$('#return-to-lobby').remove();
+	var message;
+	if (data.clicked === 'return-to-lobby') {
+		message = (data.player + ' has left! Returning to lobby...');
+	}
+	else if (data.clicked === 'deny') {
+		message = (data.player + ' rejects your challenge! Returning to lobby...')
+	}
+	$('#end-message').text(message);
+	setTimeout(function() {
+		$('#end').remove();
+		$('canvas').hide();
+		$('#lobby').show();
+	}, 2000);
 });
 
 ////////////////////////////

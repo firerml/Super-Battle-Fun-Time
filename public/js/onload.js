@@ -80,13 +80,11 @@ $(function() {
 		socket.emit('commence game',{enemy: enemyTank.player, enemyColor: greens, player: socket.io.engine.id, playerColor: purples});
 	});
 
-	$('body').on('click', '#deny', function(event) {
-		// message should say "Declined! Returning to lobby."
-		returnToLobby();
-	});
+	$('body').on('click', '#deny', returnToLobby);
 	$('body').on('click', '#return-to-lobby', returnToLobby);
 
-	function returnToLobby() {
+	function returnToLobby(event) {
+		socket.emit('iLeft', {clicked: event.currentTarget.id, enemy: enemyTank.player, player: username});
 		$('#end').remove();
 		$('canvas').hide();
 		$('#lobby').show();

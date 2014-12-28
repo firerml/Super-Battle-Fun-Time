@@ -36,11 +36,15 @@ io.on('connection', function(client) {
 	});
 
 	client.on('updateBullets', function(data) {
-		client.broadcast.to(data.enemy).emit('updateBullets',data);
+		client.broadcast.to(data.enemy).emit('updateBullets', data);
 	});
 
 	client.on('rematch', function(data) {
-		client.broadcast.to(data.enemy).emit('rematch',data);
+		client.broadcast.to(data.enemy).emit('rematch', data);
+	});
+
+	client.on('iLeft', function(data) {
+		client.broadcast.to(data.enemy).emit('iLeft', data);
 	});
 
 	// Lobby
