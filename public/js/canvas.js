@@ -1,34 +1,29 @@
 var ctx;
-var firstDeath = true;
-var innerRadius = 5;
-var outerRadius = 10;
+var firstDeath;
+var innerRadius;
+var outerRadius;
 var dieCenter;
 var explosionColor;
 var timer;
-var deathClockSet = false;
+var deathClockSet;
 var myTank;
 var enemyTank;
 
 // Assigns a tank to enemy and player, and starts the game
 function startGame(myName,myColor,enemyName,enemyColor) {
-  $('canvas').show();
-  $('#main-title').hide();
-  $('#splashpage').hide();
-  $('#lobby').hide();
+  firstDeath = true;
+  innerRadius = 5;
+  outerRadius = 10;
+  deathClockSet = false;
+  bullets = [];
+  enemyBullets = [];
+
   ctx = $('#canvas')[0].getContext('2d');
   ctx.fillStyle = 'lavender';
   ctx.fillRect(0,0,canvas.width,canvas.height);
   myTank = new Tank(myName,myColor);
   enemyTank = new Tank(enemyName,enemyColor);
 
-  $('canvas').on('click', function() {
-    if (!myTank.gameOver) {
-      myTank.createBullet()
-    }
-  });
-
-  bullets = [];
-  enemyBullets = [];
   timer = setInterval(function() { updateCanvas(myTank,enemyTank) },15);
 }
 

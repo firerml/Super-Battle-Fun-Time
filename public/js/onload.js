@@ -60,23 +60,37 @@ $(function() {
 	  socket.emit('send challenge', {enemy: enemyid, player: socket.io.engine.id});
 	});
 
+		var greens = {main: '#11CF00', extra: '#D711ED', explosion: ['lime','#2BB31E','#1C8212']}
+		var purples = {main: '#D711ED', extra: '#11CF00', explosion: ['#D711ED','#AC0DBD','#6B0876']}
 	// Starts a game when you accept the challenge by clicking on the challenge message
 	$('body').on('click', '.challenge-message', function(event) {
 		var enId = $(this).attr('invitation-id');
-		var greens = {main: '#11CF00', extra: '#D711ED', explosion: ['lime','#2BB31E','#1C8212']}
-		var purples = {main: '#D711ED', extra: '#11CF00', explosion: ['#D711ED','#AC0DBD','#6B0876']}
 		socket.emit('commence game',{enemy: enId, enemyColor: greens, player: socket.io.engine.id, playerColor: purples});
 	});
 
 	// Sends a rematch message to the enemy when the rematch button is clicked
 	$('body').on('click', '#rematch', function(event) {
-		socket.emit('rematch', {enemy: enemyid, player: username});
+		$('#rematch').remove();
+		$('#return-to-lobby').remove();
+		$('#end-message').text('Rematch request sent! Awaiting a response...');
+		socket.emit('rematch', {enemy: enemyTank.player, player: username});
+	});
+
+	$('body').on('click', '#accept', function(event) {
+		socket.emit('commence game',{enemy: enemyTank.player, enemyColor: greens, player: socket.io.engine.id, playerColor: purples});
 	});
 
 	// Moves turret based on mouse movement
 	$('canvas').mousemove(function(event) {
 		if (!myTank.gameOver) {
 			myTank.moveTurret(event.pageX,event.pageY);
+		}
+	});
+
+	// Fires a bullet during game on click
+	$('body').on('click','#canvas', function() {
+		if (!myTank.gameOver) {
+			myTank.createBullet()
 		}
 	});
 

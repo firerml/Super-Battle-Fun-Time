@@ -18,7 +18,7 @@ io.on('connection', function(client) {
 
 	// Game
 	client.on('commence game', function(data) {
-		client.broadcast.to(data['enemy']).emit('commence game',data);
+		client.broadcast.to(data.enemy).emit('commence game',data);
 		var newData = {player: data.enemy, playerColor: data.enemyColor, enemy: data.player, enemyColor: data.playerColor};
 		client.emit('commence game',newData);
 	});
