@@ -1,5 +1,7 @@
 var username;
 var enemyid;
+var greens = {main: '#11CF00', extra: '#D711ED', explosion: ['lime','#2BB31E','#1C8212']}
+var purples = {main: '#D711ED', extra: '#11CF00', explosion: ['#D711ED','#AC0DBD','#6B0876']}
 
 $(function() {
 
@@ -60,11 +62,10 @@ $(function() {
 	  socket.emit('send challenge', {enemy: enemyid, player: socket.io.engine.id});
 	});
 
-		var greens = {main: '#11CF00', extra: '#D711ED', explosion: ['lime','#2BB31E','#1C8212']}
-		var purples = {main: '#D711ED', extra: '#11CF00', explosion: ['#D711ED','#AC0DBD','#6B0876']}
 	// Starts a game when you accept the challenge by clicking on the challenge message
 	$('body').on('click', '.challenge-message', function(event) {
 		var enId = $(this).attr('invitation-id');
+		$(this).remove();
 		socket.emit('commence game',{enemy: enId, enemyColor: greens, player: socket.io.engine.id, playerColor: purples});
 	});
 
