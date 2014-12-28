@@ -54,6 +54,17 @@ $(function() {
 		}
 	});
 
+	// Submit message to server when you press the Send button
+	$('.sendbutton').on('click', function() {
+		var message = $('#messageinput').val();
+		if (message == '') {
+			alert('Please input a message');
+		} else {
+			socket.emit('send message', {name: username, message: message});
+			$('#messageinput').val('');
+		}
+	});
+
 	// Sends a challenge when you press the challenge button
 	$('body').on('click', '.challenge-button', function() {
 		var messageContainer = $('.chatmessagescontainer');

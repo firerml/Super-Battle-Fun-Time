@@ -188,7 +188,8 @@ canvas {
 }
 
 .challenge-button {
-	border: 3px solid lime;
+	color: #D711ED;
+	border: 3px solid #D711ED;
 	border-radius: 10px;
 	font-size: 20px;
 	display: inline-block;
@@ -225,4 +226,12 @@ canvas {
   background: black;
   border: solid 5px lime;
   padding: 6px;
+}
+
+#welcome-message {
+	color: #D711ED;
+	border-bottom: 3px solid #D711ED;
+	width: 100%;
+	margin-left: 0;
+	padding-left: 10px;
 }
