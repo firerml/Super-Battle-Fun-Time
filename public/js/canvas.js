@@ -23,7 +23,6 @@ function startGame(myName,myColor,enemyName,enemyColor) {
   ctx = $('#canvas')[0].getContext('2d');
   var startVars = {'#11CF00': {coordinates: {x: canvas.width/4, y: canvas.height/2}, angle: 90*3.14159/180},
                    '#D711ED': {coordinates: {x: canvas.width*3/4, y: canvas.height/2}, angle: 270*3.14159/180}};
-  console.log(myColor, startVars.myColor);
   myTank = new Tank(myName,myColor,startVars[myColor.main].coordinates, startVars[myColor.main].angle);
   enemyTank = new Tank(enemyName,enemyColor,startVars[enemyColor.main].coordinates, startVars[enemyColor.main].angle);
 

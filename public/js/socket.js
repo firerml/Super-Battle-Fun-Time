@@ -42,17 +42,24 @@ socket.on('rematch', function(data) {
 
 // The enemy left after a match by clicking 'return to lobby' or 'deny'
 socket.on('iLeft', function(data) {
-	socket.emit('change game state',data.enemy,false);
+	if (data.enemy) socket.emit('change game state',data.enemy,false);
 	$('#rematch').remove();
 	$('#return-to-lobby').remove();
 	var message;
 	if (data.clicked === 'return-to-lobby') {
 		message = (data.player + ' has left! Returning to lobby...');
+		$('#end-message').text(message);
+	}
+	else if (data.disconnected === true) {
+		message = ('Enemy has disconnected! Returning to lobby...');	
+		var endDiv = $('<div>').attr('id','end');
+		var endMessage = $('<div>').attr('id','end-message').text(message);
+		$('body').append(endDiv.append(endMessage));
 	}
 	else if (data.clicked === 'deny') {
+		$('#end-message').text(message);
 		message = (data.player + ' rejects your challenge! Returning to lobby...')
 	}
-	$('#end-message').text(message);
 	setTimeout(function() {
 		$('#end').remove();
 		$('canvas').hide();

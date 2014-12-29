@@ -5,6 +5,9 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var jquery = require('jquery');
 
+var enemyid;
+var inGame = false;
+
 // Set a port for the server to listen
 app.set('port', (process.env.PORT || 8000));
 
@@ -16,6 +19,7 @@ io.on('connection', function(client) {
 
 	// Game
 	client.on('commence game', function(data) {
+		inGame = true;
 		client.broadcast.to(data.enemy).emit('commence game',data);
 		var newData = {player: data.enemy, playerColor: data.enemyColor, enemy: data.player, enemyColor: data.playerColor};
 		client.emit('commence game',newData);
@@ -53,6 +57,7 @@ io.on('connection', function(client) {
 	});
 
 	client.on('iLeft', function(data) {
+		inGame = false;
 		client.broadcast.to(data.enemy).emit('iLeft', data);
 	});
 
@@ -83,7 +88,7 @@ io.on('connection', function(client) {
 	});
 
 	client.on('send challenge', function(data) {
-	  var enemyid = data.enemy;
+	  enemyid = data.enemy;
 	  var playerid = data.player;
 	  client.broadcast.to(enemyid).emit('send challenge', data);
 	});
@@ -92,9 +97,12 @@ io.on('connection', function(client) {
 	// When client's socket disconnects, remove user from
 	// array of usernames, and broadcast updated usernames
 	client.on('disconnect', function() {
+		if (inGame) {
+			client.broadcast.to(enemyid).emit('iLeft', {player: client.id, disconnected: true});
+		}
 		if(addedUser) {
 			usernames.forEach(function(object) {
-				if(object.id == client.id) {
+				if(object.id === client.id) {
 					usernames.splice(usernames.indexOf(object),1);
 				}
 			})
