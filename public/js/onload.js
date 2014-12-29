@@ -82,7 +82,7 @@ $(function() {
 	});
 
 	// Starts a game when you accept the challenge by clicking on the challenge message
-	$('body').on('click', '.challenge-message', function(event) {
+	$('body').on('click', '.challenge-message-button', function(event) {
 		var enId = $(this).attr('invitation-id');
 		$(this).remove();
 		socket.emit('commence game',{enemy: enId, enemyColor: greens, player: socket.io.engine.id, playerColor: purples});

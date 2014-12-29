@@ -222,7 +222,12 @@ canvas {
 .challenge-message {
   border: 3px solid lime;
   padding: 5px 10px 5px 10px;
+}
+
+.challenge-message-button {
   cursor: pointer;
+  border: 3px solid #D711ED;
+  color: #D711ED;
 }
 
 .username {
@@ -245,8 +250,8 @@ canvas {
 }
 
 #welcome-message {
-	color: #D711ED;
-	border-bottom: 3px solid #D711ED;
+	color: lime;
+	border-bottom: 3px solid lime;
 	width: 100%;
 	margin-left: 0;
 	padding-left: 10px;

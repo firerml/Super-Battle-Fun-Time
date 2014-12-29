@@ -112,7 +112,7 @@ socket.on('send message', function(data) {
 
 // Receiving a challenge
 socket.on('send challenge', function(data) {
-	var message = $('<p>').addClass('message').addClass('challenge-message').text(data.name + ' has challenged you! Click here to accept.').attr('invitation-id',data.player);
+	var message = $('<p>').addClass('message').addClass('challenge-message challenge-message-button').text(data.name + ' has challenged you! Click here to accept.').attr('invitation-id',data.player);
 	$('.chatmessagescontainer').append(message);
 });
 
