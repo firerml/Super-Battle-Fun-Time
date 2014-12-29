@@ -62,7 +62,8 @@ canvas {
 #splashbutton {
   text-align: center;
   display: inline-block;
-  border: solid 5px lime;
+  border: solid 5px #D711ED;
+  color: #D711ED;
   font-size: 25px;
   padding: 20px 40px 20px 40px;
   margin-bottom: 3%;
