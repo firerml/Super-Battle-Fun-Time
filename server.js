@@ -10,8 +10,6 @@ app.set('port', (process.env.PORT || 8000));
 
 // Usernames which are currently connected
 var usernames = [];
-var numUsers = 0;
-
 
 io.on('connection', function(client) {
 	var addedUser = false;
@@ -23,8 +21,15 @@ io.on('connection', function(client) {
 		client.emit('commence game',newData);
 	});
 
-	client.on('in game', function(playerID) {
-		client.broadcast.emit('in game', playerID);
+	client.on('change game state', function(playerID, state) {
+		for (var i = 0; i < usernames.length; i++) {
+			if (usernames[i].id === playerID) {
+				usernames[i].ingame = state;
+				client.emit('change game state',playerID,state);
+			}
+		}
+		client.broadcast.emit('user joined',usernames);
+		client.emit('user joined',usernames);
 	});
 
 	client.on('canvasUpdate', function(data) {
@@ -68,18 +73,18 @@ io.on('connection', function(client) {
 	client.on('add user', function(username) {
 		// add the clients username to the global list of users
 		var userObj = {};
-		userObj['name'] = username;
-		userObj['id'] = client.id;
-		usernames.push(userObj)
-		numUsers++;
+		userObj.name = username;
+		userObj.id = client.id;
+		userObj.ingame = false;
+		usernames.push(userObj);
 		addedUser = true;
 		client.broadcast.emit('user joined', usernames);
 		client.emit('user joined', usernames);
 	});
 
 	client.on('send challenge', function(data) {
-	  var enemyid = data['enemy'];
-	  var playerid = data['player'];
+	  var enemyid = data.enemy;
+	  var playerid = data.player;
 	  client.broadcast.to(enemyid).emit('send challenge', data);
 	});
 
@@ -89,9 +94,8 @@ io.on('connection', function(client) {
 	client.on('disconnect', function() {
 		if(addedUser) {
 			usernames.forEach(function(object) {
-				if(object['id'] == client.id) {
+				if(object.id == client.id) {
 					usernames.splice(usernames.indexOf(object),1);
-					numUsers--;
 				}
 			})
 		}

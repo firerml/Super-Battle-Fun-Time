@@ -1,10 +1,9 @@
 var username;
 var enemyid;
-var greens = {main: '#11CF00', extra: '#D711ED', explosion: ['lime','#2BB31E','#1C8212']}
-var purples = {main: '#D711ED', extra: '#11CF00', explosion: ['#D711ED','#AC0DBD','#6B0876']}
+var greens = {main: '#11CF00', extra: '#D711ED', explosion: ['lime','#2BB31E','#1C8212']};
+var purples = {main: '#D711ED', extra: '#11CF00', explosion: ['#D711ED','#AC0DBD','#6B0876']};
 
 $(function() {
-
 	// Make lobby appear
 	$('#splashbutton').on('click', function() {
 		$('#splashpage').hide();
@@ -105,6 +104,7 @@ $(function() {
 	$('body').on('click', '#return-to-lobby', returnToLobby);
 
 	function returnToLobby(event) {
+		socket.emit('change game state', myTank.player, false);
 		socket.emit('iLeft', {clicked: event.currentTarget.id, enemy: enemyTank.player, player: username});
 		$('#end').remove();
 		$('canvas').hide();

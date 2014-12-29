@@ -42,6 +42,7 @@ socket.on('rematch', function(data) {
 
 // The enemy left after a match by clicking 'return to lobby' or 'deny'
 socket.on('iLeft', function(data) {
+	socket.emit('change game state',data.enemy,false);
 	$('#rematch').remove();
 	$('#return-to-lobby').remove();
 	var message;
@@ -76,21 +77,24 @@ socket.on('get users', addUser);
 // Updates users when a user joins
 socket.on('user joined', addUser);
 
-function addUser(data) {
+function addUser(users) {
 	var usersDiv = $('.current-users');
 	usersDiv.empty();
-	if (data.length > 0) {
-		data.forEach(function(object) {
+	if (users.length > 0) {
+		users.forEach(function(userObj) {
 			var user = $('<div>').addClass('username-div');
-			var usernamePar = $('<p>').addClass('username-text').text(object['name']);
-			if (object.name.length > 10) {
+			var usernamePar = $('<p>').addClass('username-text').text(userObj['name']);
+			if (userObj.name.length > 10) {
 				usernamePar.css('font-size','20px').css('line-height','.75');
 			}
 			user.append(usernamePar);
-			user.attr('socketID', object['id']);
+			user.attr('socketID', userObj['id']);
 			usersDiv.append(user);
-			if (object.name !== username) {
+			if (userObj.name !== username && !userObj.ingame) {
 				user.append($('<div>').addClass('challenge-button user-button').text('Battle'));
+			}
+			else if (userObj.name !== username && userObj.ingame) {
+				user.append($('<div>').addClass('ingame-button user-button').text('In Game'));
 			}
 		});
 	}
@@ -116,7 +120,7 @@ socket.on('send challenge', function(data) {
 // Starts a game between two people
 socket.on('commence game', function(players) {
 	$('.challenge-message').remove();
-	socket.emit('in game', players.player);
+	socket.emit('change game state', players.player, true);
 	$('canvas').show();
 	$('#main-title').hide();
 	$('#splashpage').hide();
@@ -125,7 +129,7 @@ socket.on('commence game', function(players) {
 	startGame(players.enemy, players.enemyColor, players.player, players.playerColor);
 });
 
-socket.on('in game', function(playerID) {
+socket.on('change game state', function(playerID) {
 	var users = $('.username-div');
 	for (var i = 0; i < users.length; i++) {
 		if (users.eq(i).attr('socketid') === playerID) {
