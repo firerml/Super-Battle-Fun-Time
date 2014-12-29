@@ -21,10 +21,11 @@ function startGame(myName,myColor,enemyName,enemyColor) {
   enemyBullets = [];
 
   ctx = $('#canvas')[0].getContext('2d');
-  ctx.fillStyle = 'lavender';
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  myTank = new Tank(myName,myColor);
-  enemyTank = new Tank(enemyName,enemyColor);
+  var startVars = {'#11CF00': {coordinates: {x: canvas.width/4, y: canvas.height/2}, angle: 90*3.14159/180},
+                   '#D711ED': {coordinates: {x: canvas.width*3/4, y: canvas.height/2}, angle: 270*3.14159/180}};
+  console.log(myColor, startVars.myColor);
+  myTank = new Tank(myName,myColor,startVars[myColor.main].coordinates, startVars[myColor.main].angle);
+  enemyTank = new Tank(enemyName,enemyColor,startVars[enemyColor.main].coordinates, startVars[enemyColor.main].angle);
 
   timer = setInterval(function() { updateCanvas(myTank,enemyTank) },15);
 }

@@ -1,8 +1,8 @@
-var Tank = function(nickname, color) {
+var Tank = function(nickname, color, coordinates, angle) {
   this.player = nickname;
   this.color = color;
 
-  this.coordinates = { x: 400 * Math.random() + 100, y: 400 * Math.random() + 100 };
+  this.coordinates = coordinates;
   this.dimensions = {width: 30, height: 30};
 
   this.velocity = 0;
@@ -12,7 +12,7 @@ var Tank = function(nickname, color) {
   this.backwardsAccel = 0.08;
   this.decel = 0.03;
   this.angle = (90 * Math.PI/180);
-  this.turretAngle = 0;
+  this.turretAngle = angle;
 
   this.upPressed = false;
   this.rightPressed = false;
