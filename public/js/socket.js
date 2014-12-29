@@ -90,7 +90,7 @@ function addUser(data) {
 			user.attr('socketID', object['id']);
 			usersDiv.append(user);
 			if (object.name !== username) {
-				user.append($('<div>').addClass('challenge-button user-button').text('Challenge!'));
+				user.append($('<div>').addClass('challenge-button user-button').text('Battle'));
 			}
 		});
 	}
@@ -116,10 +116,20 @@ socket.on('send challenge', function(data) {
 // Starts a game between two people
 socket.on('commence game', function(players) {
 	$('.challenge-message').remove();
+	socket.emit('in game', players.player);
 	$('canvas').show();
 	$('#main-title').hide();
 	$('#splashpage').hide();
 	$('#lobby').hide();
 	$('#end').remove();
 	startGame(players.enemy, players.enemyColor, players.player, players.playerColor);
+});
+
+socket.on('in game', function(playerID) {
+	var users = $('.username-div');
+	for (var i = 0; i < users.length; i++) {
+		if (users.eq(i).attr('socketid') === playerID) {
+			users.eq(i).find('.challenge-button').attr('class','ingame-button user-button').text('In Game');
+		}
+	}
 });

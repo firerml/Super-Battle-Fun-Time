@@ -23,6 +23,10 @@ io.on('connection', function(client) {
 		client.emit('commence game',newData);
 	});
 
+	client.on('in game', function(playerID) {
+		client.broadcast.emit('in game', playerID);
+	});
+
 	client.on('canvasUpdate', function(data) {
 		client.broadcast.to(data.enemy).emit('canvasUpdate', data);
 	});
@@ -76,7 +80,7 @@ io.on('connection', function(client) {
 	client.on('send challenge', function(data) {
 	  var enemyid = data['enemy'];
 	  var playerid = data['player'];
-	  client.broadcast.emit('send challenge', data);
+	  client.broadcast.to(enemyid).emit('send challenge', data);
 	});
 
 

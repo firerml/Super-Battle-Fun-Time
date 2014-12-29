@@ -194,6 +194,11 @@ canvas {
 	float: left;
 }
 
+.ingame-button {
+  color: gray;
+  border: 3px solid gray;
+}
+
 .challenge-button {
 	cursor: pointer;
 	color: #D711ED;
