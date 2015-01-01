@@ -10,6 +10,7 @@ var myTank;
 var enemyTank;
 var bullets;
 var enemyBullets;
+var walls;
 
 // Assigns a tank to enemy and player, and starts the game
 function startGame(myName,myColor,enemyName,enemyColor) {
@@ -19,19 +20,37 @@ function startGame(myName,myColor,enemyName,enemyColor) {
   deathClockSet = false;
   bullets = [];
   enemyBullets = [];
+  walls = [];
 
   ctx = $('#canvas')[0].getContext('2d');
   var startVars = {'#11CF00': {coordinates: {x: canvas.width/4, y: canvas.height/2}, angle: 90*3.14159/180},
                    '#D711ED': {coordinates: {x: canvas.width*3/4, y: canvas.height/2}, angle: 270*3.14159/180}};
   myTank = new Tank(myName,myColor,startVars[myColor.main].coordinates, startVars[myColor.main].angle);
   enemyTank = new Tank(enemyName,enemyColor,startVars[enemyColor.main].coordinates, startVars[enemyColor.main].angle);
-
+  // make walls
+  var wallAnchors = [{x: 100, y: 100}];
+  for (var i = 0; i < wallAnchors.length; i++) {
+    var wall = new Wall(wallAnchors[i].x, wallAnchors[i].y, 20, 20);
+    walls.push(wall);
+  }
   timer = setInterval(function() { updateCanvas(myTank,enemyTank) },15);
+}
+
+function drawWalls() {
+  console.log('hi');
+  for (var i = 0; i < walls.length; i++) {
+    ctx.save();
+    ctx.translate(walls[i].anchor.x, walls[i].anchor.y);
+    ctx.fillStyle = 'lime';
+    ctx.fillRect(0,0,walls[i].width,walls[i].height);
+    ctx.restore();
+  }
 }
 
 // Re-draws the game based on updated info
 function updateCanvas(myTank,enemyTank) {
   refreshCanvas();
+  drawWalls();
   drawTank(enemyTank);
   drawTurret(enemyTank);
   drawTank(myTank);
@@ -56,15 +75,20 @@ function updateCanvas(myTank,enemyTank) {
   socket.emit('updateBullets', {enemy: enemyTank.player, bullets: bullets});
 }
 
+
 // updates all the bullets are fired by the player
 function updatePlayerBullets(bulletArray) {
   bulletArray.forEach(function(bullet) {
     bullet.move();
-    var hit = detectPointCollisions(enemyTank.collisionPoints(),bullet.coordinates);
-    if (hit || bullet.coordinates.x < 0 || bullet.coordinates.x > canvas.width || bullet.coordinates.y < 0 || bullet.coordinates.y > canvas.height) {
+    var hitTank = detectPointCollisions(enemyTank.collisionPoints(),bullet.coordinates);
+    var hitWall = false;
+    for (var i = 0; i < walls.length; i++) {
+      if (detectPointCollisions(walls[i].getCorners(),bullet.coordinates)) hitWall = true;
+    }
+    if (hitTank || hitWall || bullet.coordinates.x < 0 || bullet.coordinates.x > canvas.width || bullet.coordinates.y < 0 || bullet.coordinates.y > canvas.height) {
       bulletArray.splice(bulletArray.indexOf(bullet),1);
       bullet = null;
-      if (hit) {
+      if (hitTank) {
         socket.emit('takeDamage', {enemy: enemyTank.player, damage: 5});
       }
     }

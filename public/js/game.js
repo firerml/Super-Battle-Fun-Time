@@ -4,6 +4,7 @@ function receiveUpdate(enemyTank,tankProperties) {
 }
 
 // Checks if a tank is about to enter a square's four corners
+// The 'side' argument is so that you can always go the opposite direction out of a collided square
 function detectSquareCollisions(tank,squareCorners,side) {
 	var tankPoints = tank.collisionPoints(true);
 	if (side === 'front') {
