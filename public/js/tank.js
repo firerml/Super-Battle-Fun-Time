@@ -23,6 +23,13 @@ var Tank = function(nickname, color, coordinates, angle) {
   this.gameOver = 0;
 };
 
+Tank.prototype.nextCoords = function() {
+  return {
+    x: this.coordinates.x - Math.cos(this.angle)*this.velocity,
+    y: this.coordinates.y - Math.sin(this.angle)*this.velocity
+  };
+}
+
 Tank.prototype.updateTank = function() {
   if (this.downPressed) {
     this.moveBackwards();
@@ -49,8 +56,12 @@ Tank.prototype.moveForward = function() {
   else {
     this.velocity = this.maxForwardVelocity;
   }
-
-  this.move();
+  if (!detectSquareCollisions(myTank,enemyTank.collisionPoints(), 'front')) {
+    this.move();
+  }
+  else {
+    this.velocity = 0;
+  }
 };
 
 Tank.prototype.moveBackwards = function() {
@@ -60,8 +71,13 @@ Tank.prototype.moveBackwards = function() {
   else {
     this.velocity = this.maxBackwardsVelocity;
   }
-
-  this.move();
+  // Collisions
+  if (!detectSquareCollisions(myTank,enemyTank.collisionPoints(), 'back')) {
+    this.move();
+  }
+  else {
+    this.velocity = 0;
+  }
 };
 
 Tank.prototype.slowDown = function() {
@@ -75,15 +91,10 @@ Tank.prototype.slowDown = function() {
 };
 
 Tank.prototype.move = function() {
-  var nextX = this.coordinates.x - Math.cos(this.angle)*this.velocity;
-  var nextY = this.coordinates.y - Math.sin(this.angle)*this.velocity;
-  // For collisions
-  var frontOfTankX = nextX - this.dimensions.width/2 * Math.cos(this.angle);
-  var frontOfTankY = nextY - this.dimensions.height/2 * Math.sin(this.angle);
-  if (!detectCollisions(enemyTank,{x: frontOfTankX,y: frontOfTankY})) {
-    if (nextX >= 15 && nextX <= canvas.width - 15) this.coordinates.x = nextX;
-    if (nextY >= 15 && nextY <= canvas.height - 15) this.coordinates.y = nextY;
-  }
+  var nextX = this.nextCoords().x;
+  var nextY = this.nextCoords().y;
+  if (nextX >= 14 && nextX <= canvas.width - 14) this.coordinates.x = nextX;
+  if (nextY >= 14 && nextY <= canvas.height - 14) this.coordinates.y = nextY;
 };
 
 Tank.prototype.getAttributes = function() {
@@ -134,16 +145,27 @@ Tank.prototype.createBullet = function() {
   bullets.push(bullet);
 };
 
-Tank.prototype.getCorners = function() {
+// The next front point and the current corner points of the tank
+// Front is an optional boolean
+Tank.prototype.collisionPoints = function(front) {
   var rotAngle = this.angle - Math.PI/4;
-  var hyp = Math.sqrt(Math.pow(this.dimensions.height,2) + Math.pow(this.dimensions.width,2))/2
+  var hyp = Math.sqrt(Math.pow(this.dimensions.height,2) + Math.pow(this.dimensions.width,2))/2;
   var tL = {x: this.coordinates.x - hyp*Math.cos(rotAngle),
-        y: this.coordinates.y - hyp*Math.sin(rotAngle) };
+            y: this.coordinates.y - hyp*Math.sin(rotAngle) };
   var tR = {x: this.coordinates.x + hyp*Math.sin(rotAngle),
-        y: this.coordinates.y - hyp*Math.cos(rotAngle) };
+            y: this.coordinates.y - hyp*Math.cos(rotAngle) };
   var bL = {x: this.coordinates.x - hyp*Math.sin(rotAngle),
-        y: this.coordinates.y + hyp*Math.cos(rotAngle) };
+            y: this.coordinates.y + hyp*Math.cos(rotAngle) };
   var bR = {x: this.coordinates.x + hyp*Math.cos(rotAngle),
-        y: this.coordinates.y + hyp*Math.sin(rotAngle) };
-  return {tL: tL, tR: tR, bL: bL, bR: bR};
+            y: this.coordinates.y + hyp*Math.sin(rotAngle) };
+  if (front) {
+    var frX = this.coordinates.x - this.dimensions.width/2 * Math.cos(this.angle);
+    var frY = this.coordinates.y - this.dimensions.height/2 * Math.sin(this.angle);
+    var fr = {x: frX - Math.cos(this.angle)*this.velocity,
+              y: frY - Math.sin(this.angle)*this.velocity };
+    return {fr: fr, tL: tL, tR: tR, bL: bL, bR: bR};
+  }
+  else {
+    return {tL: tL, tR: tR, bL: bL, bR: bR};
+  }
 };

@@ -3,9 +3,26 @@ function receiveUpdate(enemyTank,tankProperties) {
 	enemyTank.setAttributes(tankProperties);
 }
 
-// Checks if a point is inside the tank
-function detectCollisions(tank,point) {
-  var corners = tank.getCorners();
+// Checks if a tank is about to enter a square's four corners
+function detectSquareCollisions(tank,squareCorners,side) {
+	var tankPoints = tank.collisionPoints(true);
+	if (side === 'front') {
+		keys = ['fr','tR','tL'];
+	}
+	else if (side === 'back') {
+		keys = ['bR', 'bL'];
+	}
+	var collision = false;
+	for (var i = 0; i < keys.length; i++) {
+		if (detectPointCollisions(squareCorners, tankPoints[keys[i]])) {
+			collision = true;
+		}
+	}
+	return collision;
+}
+
+// Checks if a point is inside a square
+function detectPointCollisions(corners,point) {
   return isInsideSquare(corners.tL, corners.tR, corners.bR, corners.bL, point);
 }
 
