@@ -34,18 +34,22 @@ function startGame(myName,myColor,enemyName,enemyColor) {
 
 function makeWalls() {
   var wallAnchors = [];
-  makeWallPortions(0.2,0.4,'vertical',0.2);
-  makeWallPortions(0.2,0.4,'vertical',0.8);
-  makeWallPortions(0.6,0.8,'vertical',0.2);
-  makeWallPortions(0.6,0.8,'vertical',0.8);
-  makeWallPortions(0.2,0.4,'horizontal',0.2);
-  makeWallPortions(0.2,0.4,'horizontal',0.8);
-  makeWallPortions(0.6,0.8,'horizontal',0.2);
-  makeWallPortions(0.6,0.8,'horizontal',0.8);
+  makeWallLengths(0.2,0.4,'vertical',0.2);
+  makeWallLengths(0.2,0.4,'vertical',0.8);
+  makeWallLengths(0.6,0.8,'vertical',0.2);
+  makeWallLengths(0.6,0.8,'vertical',0.8);
+
+  makeWallLengths(0.2,0.4,'horizontal',0.2);
+  makeWallLengths(0.2,0.4,'horizontal',0.8);
+  makeWallLengths(0.6,0.8,'horizontal',0.2);
+  makeWallLengths(0.6,0.8,'horizontal',0.8);
+
+  var centerWall = new Wall(canvas.width/2 - 20, canvas.height/2 - 20, 40, 40);
+  walls.push(centerWall);
 
   // axisFract is the x or y to draw the line along, in fraction of the total canvas width/height
   // it is assumed to be the axis that 'orientation' is not
-  function makeWallPortions(start,end,orientation,axisFract) {
+  function makeWallLengths(start,end,orientation,axisFract) {
     var full;
     var axis;
     var coords;
