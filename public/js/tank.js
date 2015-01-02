@@ -11,7 +11,7 @@ var Tank = function(nickname, color, coordinates, angle) {
   this.forwardAccel = 0.04;
   this.backwardsAccel = 0.08;
   this.decel = 0.03;
-  this.angle = (90 * Math.PI/180);
+  this.angle = angle + 90*Math.PI/180;
   this.turretAngle = angle;
 
   this.upPressed = false;

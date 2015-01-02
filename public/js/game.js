@@ -17,10 +17,11 @@ function tankOrWallCollisions(side) {
 // The 'side' argument is so that you can always go the opposite direction out of a collided square
 function detectSquareCollisions(tank,squareCorners,side) {
 	var tankPoints = tank.collisionPoints(true);
+	var keys;
 	if (side === 'front') {
 		keys = ['fr','tR','tL'];
 	}
-	else if (side === 'back') {
+	else {
 		keys = ['bR', 'bL'];
 	}
 	var collision = false;
