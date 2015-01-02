@@ -27,17 +27,53 @@ function startGame(myName,myColor,enemyName,enemyColor) {
                    '#D711ED': {coordinates: {x: canvas.width*3/4, y: canvas.height/2}, angle: 270*3.14159/180}};
   myTank = new Tank(myName,myColor,startVars[myColor.main].coordinates, startVars[myColor.main].angle);
   enemyTank = new Tank(enemyName,enemyColor,startVars[enemyColor.main].coordinates, startVars[enemyColor.main].angle);
-  // make walls
-  var wallAnchors = [{x: 100, y: 100}];
-  for (var i = 0; i < wallAnchors.length; i++) {
-    var wall = new Wall(wallAnchors[i].x, wallAnchors[i].y, 20, 20);
-    walls.push(wall);
-  }
+
+  makeWalls();
   timer = setInterval(function() { updateCanvas(myTank,enemyTank) },15);
 }
 
+function makeWalls() {
+  var wallAnchors = [];
+  makeWallPortions(0.2,0.4,'vertical',0.2);
+  makeWallPortions(0.2,0.4,'vertical',0.8);
+  makeWallPortions(0.6,0.8,'vertical',0.2);
+  makeWallPortions(0.6,0.8,'vertical',0.8);
+  makeWallPortions(0.2,0.4,'horizontal',0.2);
+  makeWallPortions(0.2,0.4,'horizontal',0.8);
+  makeWallPortions(0.6,0.8,'horizontal',0.2);
+  makeWallPortions(0.6,0.8,'horizontal',0.8);
+
+  // axisFract is the x or y to draw the line along, in fraction of the total canvas width/height
+  // it is assumed to be the axis that 'orientation' is not
+  function makeWallPortions(start,end,orientation,axisFract) {
+    var full;
+    var axis;
+    var coords;
+    if (orientation === 'vertical') {
+      full = canvas.height;
+      axis = canvas.width*axisFract;
+      coords = ['y','x'];
+    }
+    else {
+      full = canvas.width;
+      axis = canvas.height*axisFract;
+      coords = ['x','y'];
+    }
+    for (var i = full*start; i <= full*end; i+=10) {
+      var anchorCoords = {};
+      anchorCoords[coords[0]] = i;
+      anchorCoords[coords[1]] = axis;
+      wallAnchors.push(anchorCoords);
+    }
+  }
+
+  for (var i = 0; i < wallAnchors.length; i++) {
+    var wall = new Wall(wallAnchors[i].x, wallAnchors[i].y, 10, 10);
+    walls.push(wall);
+  }
+}
+
 function drawWalls() {
-  console.log('hi');
   for (var i = 0; i < walls.length; i++) {
     ctx.save();
     ctx.translate(walls[i].anchor.x, walls[i].anchor.y);

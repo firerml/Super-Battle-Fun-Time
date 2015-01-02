@@ -56,7 +56,8 @@ Tank.prototype.moveForward = function() {
   else {
     this.velocity = this.maxForwardVelocity;
   }
-  if (!detectSquareCollisions(myTank,enemyTank.collisionPoints(), 'front')) {
+
+  if (!tankOrWallCollisions('front')) {
     this.move();
   }
   else {
@@ -72,7 +73,7 @@ Tank.prototype.moveBackwards = function() {
     this.velocity = this.maxBackwardsVelocity;
   }
   // Collisions
-  if (!detectSquareCollisions(myTank,enemyTank.collisionPoints(), 'back')) {
+  if (!tankOrWallCollisions('back')) {
     this.move();
   }
   else {
@@ -134,7 +135,6 @@ Tank.prototype.setAttributes = function(tankProps) {
 Tank.prototype.moveTurret = function(mouseX,mouseY) {
   var yDif = (mouseY - this.coordinates.y);
   var xDif = (mouseX - this.coordinates.x);
-
   this.turretAngle = (Math.atan2(yDif,xDif) + Math.PI/2);
 };
 
