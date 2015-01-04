@@ -14,6 +14,8 @@ Challenge someone online right now and find out!
 ###Controls
 
 WASD/Arrow Keys - Move forward and backward, turn left and right (tank-style controls)
+
 Mouse - Move turret
+
 Click - Shoot
 
