@@ -182,6 +182,9 @@ canvas {
 	margin-top: 10px;
 	letter-spacing: 5px;
 	display: flex;
+  /*display: -webkit-box;*/
+  /*display: -moz-box;*/
+  /*display: -ms-flexbox;*/
 	align-items: center;
 }
 
