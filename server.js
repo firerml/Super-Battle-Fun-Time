@@ -5,6 +5,7 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var jquery = require('jquery');
 
+var playerid;
 var enemyid;
 var inGame = false;
 
@@ -89,7 +90,7 @@ io.on('connection', function(client) {
 
 	client.on('send challenge', function(data) {
 	  enemyid = data.enemy;
-	  var playerid = data.player;
+	  playerid = data.player;
 	  client.broadcast.to(enemyid).emit('send challenge', data);
 	});
 
@@ -97,10 +98,15 @@ io.on('connection', function(client) {
 	// When client's socket disconnects, remove user from
 	// array of usernames, and broadcast updated usernames
 	client.on('disconnect', function() {
+		var otherPlayer;
+		// these variables are misnomers: for one player, player id is himself, but
+		// for the other player, player id is the enemy.
+		if (enemyid === client.id) otherPlayer = playerid;
+		else otherPlayer = enemyid;
 		if (inGame) {
-			client.broadcast.to(enemyid).emit('iLeft', {player: client.id, disconnected: true});
+			client.broadcast.to(otherPlayer).emit('iLeft', {player: client.id, disconnected: true});
 		}
-		if(addedUser) {
+		if (addedUser) {
 			usernames.forEach(function(object) {
 				if(object.id === client.id) {
 					usernames.splice(usernames.indexOf(object),1);
@@ -108,8 +114,9 @@ io.on('connection', function(client) {
 			})
 		}
 		client.broadcast.emit('user joined', usernames);
+		enemyid = null;
+		inGame = false;
 	});
-
 });
 
 // Load files that are in the public directory

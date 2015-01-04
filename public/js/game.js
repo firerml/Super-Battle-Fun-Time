@@ -59,7 +59,7 @@ function endMessage() {
 	if (myTank.gameOver > 0) message = 'You win!';
 	else if (myTank.gameOver < 0) message = 'You lose!';
 	var endDiv = $('<div>').attr('id','end');
-	var endMessage = $('<div>').attr('id','end-message').text(message);
+	var endMessage = $('<div>').attr('id','end-message').addClass('green-message').text(message);
 	var rematch = $('<div>').attr('id','rematch').text('Request A Rematch');
 	var returnToLobby = $('<div>').attr('id','return-to-lobby').text('Return To Lobby')
 	$(endDiv).append(endMessage).append(rematch).append(returnToLobby);

@@ -248,8 +248,12 @@ canvas {
 
 #end-message {
   background: black;
-  border: solid 5px lime;
   padding: 6px;
+}
+
+.green-message {
+  border: solid 5px lime;
+  color: lime;
 }
 
 #welcome-message {
@@ -305,7 +309,7 @@ canvas {
   border: solid 5px #2A11BA;
 }
 
-#deny {
+.red-message {
   color: red;
   border: solid 5px red;
 }

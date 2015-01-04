@@ -32,7 +32,7 @@ socket.on('rematch', function(data) {
 		var rematchDiv = $('<div>').attr('id','rematch-notification');
 		$('#end-message').text(data.player + ' demands a rematch!');
 		var accept = $('<div>').attr('id','accept').text('Accept');
-		var deny = $('<div>').attr('id','deny').text('Deny');
+		var deny = $('<div>').attr('id','deny').addClass('red-message').text('Deny');
 		$(rematchDiv).append(accept).append(deny);
 		$('#end').append(rematchDiv);
 		$('#rematch').remove();
@@ -42,6 +42,7 @@ socket.on('rematch', function(data) {
 
 // The enemy left after a match by clicking 'return to lobby' or 'deny'
 socket.on('iLeft', function(data) {
+	console.log(data);
 	if (data.enemy) socket.emit('change game state',data.enemy,false);
 	$('#rematch').remove();
 	$('#return-to-lobby').remove();
@@ -51,15 +52,18 @@ socket.on('iLeft', function(data) {
 		$('#end-message').text(message);
 	}
 	else if (data.disconnected === true) {
-		message = ('Enemy has disconnected! Returning to lobby...');	
+		socket.emit('change game state', myTank.player, false);
+		message = ('Enemy has disconnected! Returning to lobby...');
 		var endDiv = $('<div>').attr('id','end');
-		var endMessage = $('<div>').attr('id','end-message').text(message);
+		var endMessage = $('<div>').attr('id','end-message').attr('class','red-message').text(message);
 		$('body').append(endDiv.append(endMessage));
 	}
 	else if (data.clicked === 'deny') {
-		$('#end-message').text(message);
 		message = (data.player + ' rejects your challenge! Returning to lobby...')
+		$('#end-message').addClass('red-message').text(message);
 	}
+	clearInterval(timer);
+	enemyTank = null;
 	setTimeout(function() {
 		$('#end').remove();
 		$('canvas').hide();
