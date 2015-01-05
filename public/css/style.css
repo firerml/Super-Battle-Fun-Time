@@ -1,10 +1,18 @@
 body {
+  text-align: center;
   margin: 0;
   width: 100%;
   height: 100%;
   font-family: 'Play', sans-serif;
   background: black;
   color: lime;
+}
+
+canvas {
+  margin-top: 20px;
+  text-align: center;
+	display: none;
+  border: solid 5px lime;
 }
 
 #instructions {
@@ -43,12 +51,6 @@ body {
   right: 0;
 }
 
-canvas {
-  text-align: left;
-	display: none;
-  border-right: solid 5px lime;
-  border-bottom: solid 5px lime;
-}
 
 #main-title {
   text-align: center;
