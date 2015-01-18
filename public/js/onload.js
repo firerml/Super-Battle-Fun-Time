@@ -117,7 +117,6 @@ $(function() {
 		var extraLeft = $('canvas').offset().left + parseInt($('canvas').css('border-left-width'));
 		if (!myTank.gameOver) {
 			myTank.moveTurret(event.pageX - extraLeft,event.pageY - extraTop);
-			console.log('x:',event.pageX - extraLeft,'y:',event.pageY - extraTop);
 		}
 	});
 

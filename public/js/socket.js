@@ -42,7 +42,6 @@ socket.on('rematch', function(data) {
 
 // The enemy left after a match by clicking 'return to lobby' or 'deny'
 socket.on('iLeft', function(data) {
-	console.log(data);
 	if (data.enemy) socket.emit('change game state',data.enemy,false);
 	$('#rematch').remove();
 	$('#return-to-lobby').remove();
