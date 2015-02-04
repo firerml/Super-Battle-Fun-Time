@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Play';
+  src: url('fonts/Play-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   text-align: center;
   margin: 0;
